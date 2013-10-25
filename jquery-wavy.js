@@ -16,7 +16,7 @@
  */
 
 
-$.widget(".wavy", {
+$.widget("wavy.wavy", {
 		options: {
 				slotClass: "wavy-slot",
 				placeholderClass: "wavy-placeholder",
