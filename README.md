@@ -7,7 +7,7 @@ Wavy is a [jQuery UI](http://www.jqueryui.com) plugin that creates sortable path
 Usage
 -----
 
-Include ```jquery-wavy.js``` on your page, along with [jQuery](http://www.jquery.com) and [jQuery UI](http://www.jqueryui.com), and execute the following:
+Include ```src/jquery-wavy.js``` on your page, along with [jQuery](http://www.jquery.com) and [jQuery UI](http://www.jqueryui.com), and execute the following:
 
 ```javascript
 $("#wavy").wavy({ path: [["line", 5, 0, 0, 300, 300]] });
