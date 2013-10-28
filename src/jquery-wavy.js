@@ -280,7 +280,7 @@ $.widget("wavy.wavy", {
 									var item = ui.helper.clone();
 									try {
 										that.addItem(item);
-									} catch(e) {
+									} catch(err) {
 										// The wavy was probably full, do nothing.
 									}
 							}
