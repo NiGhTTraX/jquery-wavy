@@ -295,7 +295,7 @@ $.widget("wavy.wavy", {
 
 				for (k = i + 1; k < size; k++) {
 					if (!this.element.children().eq(k).children(selector).length)
-						if (this.options["shiftDirection"] === "right") {
+						if (this.options.shiftDirection === "right") {
 							return k;
 						} else {
 							right = k;
@@ -305,7 +305,7 @@ $.widget("wavy.wavy", {
 
 				for (k = i - 1; k >= 0; k--) {
 					if (!this.element.children().eq(k).children(selector).length)
-						if (this.options["shiftDirection"] === "left") {
+						if (this.options.shiftDirection === "left") {
 							return k;
 						} else {
 							left = k;
@@ -326,7 +326,7 @@ $.widget("wavy.wavy", {
 				}
 
 				// Return the closest free spot.
-				if (this.options["shiftDirection"] === "closest") {
+				if (this.options.shiftDirection === "closest") {
 					return i - left < right - i ? left : right;
 				} else {
 					throw new Error("Unknown option for shiftDirection");
