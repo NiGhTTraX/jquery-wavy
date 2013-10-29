@@ -7,7 +7,7 @@ Wavy is a [jQuery UI](http://www.jqueryui.com) plugin that creates sortable path
 Usage
 -----
 
-Include ```src/jquery-wavy.js``` on your page, along with [jQuery](http://www.jquery.com) and [jQuery UI](http://www.jqueryui.com), and execute the following:
+Include ```jquery-wavy.js``` on your page, along with [jQuery](http://www.jquery.com) and [jQuery UI](http://www.jqueryui.com), and execute the following:
 
 ```javascript
 $("#wavy").wavy({ path: [["line", 5, 0, 0, 300, 300]] });
@@ -43,9 +43,24 @@ The path option takes a list of paths containing the path type and coordinates a
 A wavy can contain multiple paths that do not have to connect at ends. They can even overlap, but be careful not to place them in such a way that slots will overlap, as this will cause problems in drag and drop detection.
 
 
-Unit tests
-----------
+Building
+--------
 
-Open ```tests/index.html``` in your browser. Tests are written using the [QUnit](http://www.qunitjs.com/) framework and the [Synthetic event library](https://github.com/bitovi/syn).
+Make sure you have nodejs, npm, grunt and grunt-cli installed and then run the following:
+
+```bash
+git clone git@github.com:NiGhTTraX/jquery-wavy.git
+cd jquery-wavy
+npm install
+grunt
+```
+
+If all went well, you will find a minified version of the plugin in the ```build/``` folder.
+
+
+Testing
+-------
+
+Run ```grunt test``` to run the tests in [PhantomJS](https://github.com/ariya/phantomjs) or open ```tests/index.html``` to run them in your browser. Tests are written using the [QUnit](http://www.qunitjs.com/) framework and the [jQuery Event Unit Testing Helpers](https://github.com/jquery/jquery-simulate).
 
 To enable coverage, place the ```resources/``` and ```tests/``` folders in your webserver and run the tests from there with the coverage option in QUnit checked (running coverage locally will throw a cross-domain error). Coverage is done using [blanket.js](http://www.blanketjs.org).
