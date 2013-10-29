@@ -2,7 +2,7 @@ function testWavy(wavy, items) {
 	var slots = $(".wavy-slot", wavy);
 	var left = 0;
 
-	equal(slots.length, items.length);
+	equal(slots.length, items.length, "size is correct");
 
 	for (var i = 0, l = items.length; i < l; i++) {
 		if (items[i] === 0) {
@@ -15,7 +15,7 @@ function testWavy(wavy, items) {
 		}
 	}
 
-	equal(wavy.wavy("capacity"), left);
+	equal(wavy.wavy("capacity"), left, "capacity is correct");
 }
 
 
