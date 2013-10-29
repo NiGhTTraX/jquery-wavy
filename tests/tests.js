@@ -18,6 +18,16 @@ function testWavy(wavy, items) {
 	equal(wavy.wavy("capacity"), left, "capacity is correct");
 }
 
+function dd(from, to) {
+	// Drag and drop from -> to.
+	var fromOffset = $(from).offset(),
+			toOffset = $(to).offset(),
+			dx = toOffset.left - fromOffset.left,
+			dy = toOffset.top - fromOffset.top;
+
+	$(from).simulate("drag", {dx: dx, dy: dy});
+}
+
 
 module("core");
 test("test_create", function() {
@@ -186,7 +196,7 @@ test("test_add_item_clone", function() {
 		equal($(".test-item", fixture).length, 2);
 });
 
-asyncTest("test_drag_and_drop_item_without_helper_clone_retains_item", function() {
+test("test_drag_and_drop_item_without_helper_clone_retains_item", function() {
 		var fixture = $("#qunit-fixture");
 		var w = $("<div></div>");
 		w.appendTo(fixture);
@@ -196,16 +206,12 @@ asyncTest("test_drag_and_drop_item_without_helper_clone_retains_item", function(
 		item.appendTo(fixture);
 		item.draggable();
 
-		var slot = ".wavy-slot:first";
-		Syn.drag({ to: slot, duration: 100 }, item);
+		dd(item, ".wavy-slot:first");
 
-		setTimeout(function() {
-				equal($(".test-item", fixture).length, 2);
-				start();
-		}, 200);
+		equal($(".test-item", fixture).length, 2);
 });
 
-asyncTest("test_drag_and_drop_item_with_helper_clone_retains_item", function() {
+test("test_drag_and_drop_item_with_helper_clone_retains_item", function() {
 		var fixture = $("#qunit-fixture");
 		var w = $("<div></div>");
 		w.appendTo(fixture);
@@ -215,13 +221,9 @@ asyncTest("test_drag_and_drop_item_with_helper_clone_retains_item", function() {
 		item.appendTo(fixture);
 		item.draggable({ helper: "clone" });
 
-		var slot = ".wavy-slot:first";
-		Syn.drag({ to: slot, duration: 100 }, item);
+		dd(item, ".wavy-slot:first");
 
-		setTimeout(function() {
-				equal($(".test-item", fixture).length, 2);
-				start();
-		}, 200);
+		equal($(".test-item", fixture).length, 2);
 });
 
 test("test_shift_items_from_first", function() {
@@ -430,7 +432,7 @@ test("test_api_wavy_full", function() {
 		testWavy(w, expected);
 });
 
-asyncTest("test_drag_and_drop_wavy_full", function() {
+test("test_drag_and_drop_wavy_full", function() {
 		var fixture = $("#qunit-fixture");
 		var w = $("<div></div>");
 		w.appendTo(fixture);
@@ -440,16 +442,10 @@ asyncTest("test_drag_and_drop_wavy_full", function() {
 		item.appendTo(fixture);
 		item.draggable({ helper: "clone" });
 
-		var slot = ".wavy-slot:first";
-		Syn.drag({ to: slot, duration: 100 }, item);
-		setTimeout(function() {
-				Syn.drag({ to: slot, duration: 100 }, item);
-		}, 200);
+		dd(item, ".wavy-slot:first");
+		dd(item, ".wavy-slot:first");
 
-		setTimeout(function() {
-				testWavy(w, [item]);
-				start();
-		}, 400);
+		testWavy(w, [item]);
 });
 
 module("api", {
@@ -593,7 +589,7 @@ test("test_add_item_fill_wavy_and_then_remove_all_and_add_again", function() {
 		ok(w.hasClass("full"));
 });
 
-asyncTest("test_helper_index", function() {
+test("test_helper_index", function() {
 		var fixture = $("#qunit-fixture");
 		var w = $(".wavy", fixture);
 		var item = $("<div></div>").text("test").addClass("test-item");
@@ -610,16 +606,13 @@ asyncTest("test_helper_index", function() {
 		d.css({ position: "absolute", left: 0, top: "400px" });
 		d.appendTo(fixture);
 
-		Syn.drag({ to: "#d", duration: 100 }, item);
+		dd(item, "#d");
 
-		setTimeout(function() {
-			var expected = [0, item, 0, 0, 0];
-			testWavy(w, expected);
-			start();
-		}, 200);
+		var expected = [0, item, 0, 0, 0];
+		testWavy(w, expected);
 });
 
-asyncTest("test_helper_index", function() {
+test("test_helper_index", function() {
 		var fixture = $("#qunit-fixture");
 		var w = $(".wavy", fixture);
 		var item = $("<div></div>").text("test").addClass("test-item");
@@ -643,16 +636,13 @@ asyncTest("test_helper_index", function() {
 		trash.css({ position: "absolute", left: 0, top: "400px" });
 		trash.appendTo(fixture);
 
-		Syn.drag({ to: "#trash", duration: 100 }, item);
+		dd(item, "#trash");
 
-		setTimeout(function() {
-			var expected = [0, 0, 0, 0, 0];
-			testWavy(w, expected);
+		var expected = [0, 0, 0, 0, 0];
+		testWavy(w, expected);
 
-			equal($(".test-item").length, 0);
-			equal($(".wavy-placeholder").length, 0);
-			start();
-		}, 200);
+		equal($(".test-item").length, 0);
+		equal($(".wavy-placeholder").length, 0);
 });
 
 
@@ -664,41 +654,31 @@ module("drag_and_drop", {
 				w.wavy({ path: [["line", 5, 0, 0, 300, 0]] });
 		}
 });
-asyncTest("test_drag_and_drop_item_to_first_slot", function() {
+test("test_drag_and_drop_item_to_first_slot", function() {
 		var fixture = $("#qunit-fixture");
 		var w = $(".wavy", fixture);
 		var item = $("<div></div>").text("test").addClass("test-item");
 		item.appendTo(fixture);
 		item.draggable();
 
-		var slot = ".wavy-slot:first";
-
-		Syn.drag({ to: slot, duration: 100 }, item);
-		setTimeout(function() {
-				var expected = [item, 0, 0, 0, 0];
-				testWavy(w, expected);
-				start();
-		}, 200);
+		dd(item, ".wavy-slot:first");
+		var expected = [item, 0, 0, 0, 0];
+		testWavy(w, expected);
 });
 
-asyncTest("test_drag_and_drop_item_to_last_slot", function() {
+test("test_drag_and_drop_item_to_last_slot", function() {
 		var fixture = $("#qunit-fixture");
 		var w = $(".wavy", fixture);
 		var item = $("<div></div>").text("test").addClass("test-item");
 		item.appendTo(fixture);
 		item.draggable();
 
-		var slot = ".wavy-slot:last";
-
-		Syn.drag({ to: slot, duration: 10 }, item);
-		setTimeout(function() {
-				var expected = [0, 0, 0, 0, item];
-				testWavy(w, expected);
-				start();
-		}, 200);
+		dd(item, ".wavy-slot:last");
+		var expected = [0, 0, 0, 0, item];
+		testWavy(w, expected);
 });
 
-asyncTest("test_drag_and_drop_item_to_occupied_first_slot", function() {
+test("test_drag_and_drop_item_to_occupied_first_slot", function() {
 		var fixture = $("#qunit-fixture");
 		var w = $(".wavy", fixture);
 		var item1 = $("<div></div>").text("test1").addClass("test-item");
@@ -710,20 +690,15 @@ asyncTest("test_drag_and_drop_item_to_occupied_first_slot", function() {
 
 		var slot = ".wavy-slot:first";
 
-		Syn.drag({ to: slot, duration: 100 }, item1);
+		dd(item1, slot);
 
-		setTimeout(function() {
-				Syn.drag({ to: slot, duration: 100 }, item2);
-		}, 200);
+		dd(item2, slot);
 
-		setTimeout(function() {
-				var expected = [item2, item1, 0, 0, 0];
-				testWavy(w, expected);
-				start();
-		}, 400);
+		var expected = [item2, item1, 0, 0, 0];
+		testWavy(w, expected);
 });
 
-asyncTest("test_drag_and_drop_item_to_occupied_last_slot", function() {
+test("test_drag_and_drop_item_to_occupied_last_slot", function() {
 		var fixture = $("#qunit-fixture");
 		var w = $(".wavy", fixture);
 		var item1 = $("<div></div>").text("test1").addClass("test-item");
@@ -735,20 +710,15 @@ asyncTest("test_drag_and_drop_item_to_occupied_last_slot", function() {
 
 		var slot = ".wavy-slot:last";
 
-		Syn.drag({ to: slot, duration: 100 }, item1);
+		dd(item1, slot);
 
-		setTimeout(function() {
-				Syn.drag({ to: slot, duration: 100 }, item2);
-		}, 200);
+		dd(item2, slot);
 
-		setTimeout(function() {
-				var expected = [0, 0, 0, item1, item2];
-				testWavy(w, expected);
-				start();
-		}, 400);
+		var expected = [0, 0, 0, item1, item2];
+		testWavy(w, expected);
 });
 
-asyncTest("test_drag_and_drop_full_wavy", function() {
+test("test_drag_and_drop_full_wavy", function() {
 		var fixture = $("#qunit-fixture");
 		var w = $(".wavy", fixture);
 		var item1 = $("<div></div>").text("test1").addClass("test-item");
@@ -764,29 +734,23 @@ asyncTest("test_drag_and_drop_full_wavy", function() {
 
 		var from = ".test-item:last";
 		var to = ".wavy-slot:first";
-		Syn.drag({ to: to, duration: 100 }, item1);
+		dd(item1, to);
 
-		setTimeout(function() {
-				var expected = [item1, item1, item2, item1, item2];
-				testWavy(w, expected);
-				start();
-		}, 200);
+		var expected = [item1, item1, item2, item1, item2];
+		testWavy(w, expected);
 });
 
-asyncTest("test_drag_and_drop_item_to_wavy_itself", function() {
+test("test_drag_and_drop_item_to_wavy_itself", function() {
 		var fixture = $("#qunit-fixture");
 		var w = $(".wavy", fixture);
 		var item = $("<div></div>").text("test").addClass("test-item");
 		item.appendTo(fixture);
 		item.draggable({ helper: "clone" });
 
-		Syn.drag({ to: ".wavy", duration: 100 }, item);
+		dd(item, ".wavy");
 
-		setTimeout(function() {
-				var expected = [item, 0, 0, 0, 0];
-				testWavy(w, expected);
-				start();
-		}, 200);
+		var expected = [item, 0, 0, 0, 0];
+		testWavy(w, expected);
 });
 
 
@@ -798,7 +762,7 @@ module("drag_and_drop", {
 				w.wavy({ path: [["line", 5, 0, 0, 300, 0]] });
 		}
 });
-asyncTest("test_drag_and_drop_item_in_wavy_from_first_to_last_slot", function() {
+test("test_drag_and_drop_item_in_wavy_from_first_to_last_slot", function() {
 		var fixture = $("#qunit-fixture");
 		var w = $(".wavy", fixture);
 		var item = $("<div></div>").text("test").addClass("test-item");
@@ -806,16 +770,13 @@ asyncTest("test_drag_and_drop_item_in_wavy_from_first_to_last_slot", function() 
 
 		w.wavy("addItem", item, 0);
 
-		Syn.drag({ to: ".wavy-slot:last", duration: 100 }, item);
+		dd(item, ".wavy-slot:last");
 
-		setTimeout(function() {
-				var expected = [0, 0, 0, 0, item];
-				testWavy(w, expected);
-				start();
-		}, 200);
+		var expected = [0, 0, 0, 0, item];
+		testWavy(w, expected);
 });
 
-asyncTest("test_drag_and_drop_item_in_wavy_from_last_to_first", function() {
+test("test_drag_and_drop_item_in_wavy_from_last_to_first", function() {
 		var fixture = $("#qunit-fixture");
 		var w = $(".wavy", fixture);
 		var item = $("<div></div>").text("test").addClass("test-item");
@@ -823,16 +784,13 @@ asyncTest("test_drag_and_drop_item_in_wavy_from_last_to_first", function() {
 
 		w.wavy("addItem", item, 4);
 
-		Syn.drag({ to: ".wavy-slot:first", duration: 100 }, item);
+		dd(item, ".wavy-slot:first");
 
-		setTimeout(function() {
-				var expected = [item, 0, 0, 0, 0];
-				testWavy(w, expected);
-				start();
-		}, 200);
+		var expected = [item, 0, 0, 0, 0];
+		testWavy(w, expected);
 });
 
-asyncTest("test_drag_and_drop_item_in_wavy_back_and_forth", function() {
+test("test_drag_and_drop_item_in_wavy_back_and_forth", function() {
 		var fixture = $("#qunit-fixture");
 		var w = $(".wavy", fixture);
 		var item = $("<div></div>").text("test").addClass("test-item");
@@ -840,20 +798,15 @@ asyncTest("test_drag_and_drop_item_in_wavy_back_and_forth", function() {
 
 		w.wavy("addItem", item, 0);
 
-		Syn.drag({ to: ".wavy-slot:last", duration: 100 }, item);
+		dd(item, ".wavy-slot:last");
 
-		setTimeout(function() {
-				Syn.drag({ to: ".wavy-slot:first", duration: 100 }, item);
-		}, 200);
+		dd(item, ".wavy-slot:first");
 
-		setTimeout(function() {
-				var expected = [item, 0, 0, 0, 0];
-				testWavy(w, expected);
-				start();
-		}, 400);
+		var expected = [item, 0, 0, 0, 0];
+		testWavy(w, expected);
 });
 
-asyncTest("test_drag_item_in_wavy_and_drop_on_wavy", function() {
+test("test_drag_item_in_wavy_and_drop_on_wavy", function() {
 		var fixture = $("#qunit-fixture");
 		var w = $(".wavy", fixture);
 		var item = $("<div></div>").text("test").addClass("test-item");
@@ -861,16 +814,13 @@ asyncTest("test_drag_item_in_wavy_and_drop_on_wavy", function() {
 
 		w.wavy("addItem", item, 0);
 
-		Syn.drag({ to: ".wavy", duration: 100 }, item);
+		dd(item, ".wavy");
 
-		setTimeout(function() {
-				var expected = [item, 0, 0, 0, 0];
-				testWavy(w, expected);
-				start();
-		}, 200);
+		var expected = [item, 0, 0, 0, 0];
+		testWavy(w, expected);
 });
 
-asyncTest("test_drag_and_drop_item_in_wavy_that_shifts_others", function() {
+test("test_drag_and_drop_item_in_wavy_that_shifts_others", function() {
 		var fixture = $("#qunit-fixture");
 		var w = $(".wavy", fixture);
 		var item1 = $("<div></div>").text("test1").addClass("test-item");
@@ -884,28 +834,22 @@ asyncTest("test_drag_and_drop_item_in_wavy_that_shifts_others", function() {
 		w.wavy("addItem", item2, 1);
 		w.wavy("addItem", item3, 2);
 
-		Syn.drag({ to: ".wavy-slot:first", duration: 100 }, item3);
+		dd(item3, ".wavy-slot:first");
 
-		setTimeout(function() {
-				var expected = [item3, item1, item2, 0, 0];
-				testWavy(w, expected);
-				start();
-		}, 200);
+		var expected = [item3, item1, item2, 0, 0];
+		testWavy(w, expected);
 });
 
-asyncTest("test_drag_and_drop_item_outside_wavy", function() {
+test("test_drag_and_drop_item_outside_wavy", function() {
 		var fixture = $("#qunit-fixture");
 		var w = $(".wavy", fixture);
 		var item = $("<div></div>").text("test").addClass("test-item");
 		w.wavy("addItem", item, 0);
 
-		Syn.drag({ to: "500x500", duration: 100 }, item);
+		item.simulate("drag", {dx: 500, dy: 500});
 
-		setTimeout(function() {
-				var expected = [item, 0, 0, 0, 0];
-				testWavy(w, expected);
-				start();
-		}, 200);
+		var expected = [item, 0, 0, 0, 0];
+		testWavy(w, expected);
 });
 
 
@@ -915,26 +859,23 @@ module("more_wavys", {
 				var w1 = $("<div></div>").attr("id", "w1").appendTo(fixture);
 				var w2 = $("<div></div>").attr("id", "w2").appendTo(fixture);
 				w1.wavy({ path: [["line", 5, 0, 0, 300, 0]] });
-				w2.wavy({ path: [["line", 5, 0, 0, 300, 0]] });
+				w2.wavy({ path: [["line", 5, 0, 0, 300, 300]] });
 		}
 });
-asyncTest("test_drag_and_drop_item_between_wavys", function() {
+test("test_drag_and_drop_item_between_wavys", function() {
 		var fixture = $("#qunit-fixture");
 		var w1 = $("#w1"),
 				w2 = $("#w2");
 		var item = $("<div></div>").text("test").addClass("test-item");
-		w1.wavy("addItem", item, 0);
+		w1.wavy("addItem", item, 2);
 
-		Syn.drag({ to: "#w2 .wavy-slot:first", duration: 100 }, item);
+		dd(item, "#w2 .wavy-slot:last");
 
-		setTimeout(function() {
-				testWavy(w1, [0, 0, 0, 0, 0]);
-				testWavy(w2, [item, 0, 0, 0, 0]);
-				start();
-		}, 200);
+		testWavy(w1, [0, 0, 0, 0, 0]);
+		testWavy(w2, [0, 0, 0, 0, item]);
 });
 
-asyncTest("test_drag_and_drop_item_between_wavys_with_scopes", function() {
+test("test_drag_and_drop_item_between_wavys_with_different_scopes", function() {
 		var fixture = $("#qunit-fixture");
 		var w1 = $("#w1"),
 				w2 = $("#w2");
@@ -947,16 +888,13 @@ asyncTest("test_drag_and_drop_item_between_wavys_with_scopes", function() {
 		w1.wavy("addItem", i1, 0);
 		w2.wavy("addItem", i2, 0);
 
-		Syn.drag({ to: "#w2 .wavy-slot:first", duration: 100 }, i1);
+		dd(i1, "#w2 .wavy-slot:first");
 
-		setTimeout(function() {
-				testWavy(w1, [i1, 0, 0, 0, 0]);
-				testWavy(w2, [i2, 0, 0, 0, 0]);
-				start();
-		}, 200);
+		testWavy(w1, [i1, 0, 0, 0, 0]);
+		testWavy(w2, [i2, 0, 0, 0, 0]);
 });
 
-asyncTest("test_drag_and_drop_item_between_wavys_with_shifting", function() {
+test("test_drag_and_drop_item_between_wavys_with_shifting", function() {
 		var fixture = $("#qunit-fixture");
 		var w1 = $("#w1"),
 				w2 = $("#w2");
@@ -966,36 +904,28 @@ asyncTest("test_drag_and_drop_item_between_wavys_with_shifting", function() {
 		w1.wavy("addItem", i1, 0);
 		w2.wavy("addItem", i2, 0);
 
-		Syn.drag({ to: "#w2 .wavy-slot:first", duration: 100 }, i1);
+		dd(i1, "#w2 .wavy-slot:first");
 
-		setTimeout(function() {
-				testWavy(w1, [0, 0, 0, 0, 0]);
-				testWavy(w2, [i1, i2, 0, 0, 0]);
-				start();
-		}, 200);
+		testWavy(w1, [0, 0, 0, 0, 0]);
+		testWavy(w2, [i1, i2, 0, 0, 0]);
 });
 
-asyncTest("test_drag_and_drop_item_between_wavys_back_and_forth", function() {
+test("test_drag_and_drop_item_between_wavys_back_and_forth", function() {
 		var fixture = $("#qunit-fixture");
 		var w1 = $("#w1"),
 				w2 = $("#w2");
 		var item = $("<div></div>").text("test").addClass("test-item");
 		w1.wavy("addItem", item, 0);
 
-		Syn.drag({ to: "#w2 .wavy-slot:first", duration: 100 }, item);
-		setTimeout(function() {
-				item = $(".test-item");
-				Syn.drag({ to: "#w1 .wavy-slot:last", duration: 100 }, item);
-		}, 200);
+		dd(item, "#w2 .wavy-slot:first");
+		item = $(".test-item");
+		dd(item, "#w1 .wavy-slot:last");
 
-		setTimeout(function() {
-				testWavy(w1, [0, 0, 0, 0, item]);
-				testWavy(w2, [0, 0, 0, 0, 0]);
-				start();
-		}, 400);
+		testWavy(w1, [0, 0, 0, 0, item]);
+		testWavy(w2, [0, 0, 0, 0, 0]);
 });
 
-asyncTest("test_drag_and_drop_item_from_wavy_to_full_wavy", function() {
+test("test_drag_and_drop_item_from_wavy_to_full_wavy", function() {
 		var fixture = $("#qunit-fixture");
 		var w1 = $("#w1"),
 				w2 = $("#w2");
@@ -1007,12 +937,9 @@ asyncTest("test_drag_and_drop_item_from_wavy_to_full_wavy", function() {
 			w2.wavy("addItem", i2.clone(), i);
 		}
 
-		Syn.drag({ to: "#w2 .wavy-slot:first", duration: 100 }, i1);
+		dd(i1, "#w2 .wavy-slot:first");
 
-		setTimeout(function() {
-				testWavy(w1, [i1, 0, 0, 0, 0]);
-				testWavy(w2, [i2, i2, i2, i2, i2]);
-				start();
-		}, 200);
+		testWavy(w1, [i1, 0, 0, 0, 0]);
+		testWavy(w2, [i2, i2, i2, i2, i2]);
 });
 
