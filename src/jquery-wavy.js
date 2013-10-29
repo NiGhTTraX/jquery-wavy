@@ -148,31 +148,32 @@ $.widget("wavy.wavy", {
 					var path = _path[i],
 							pathType = path[0],
 							pathSize = path[1],
-							t = 0, step;
+							t = 0, step,
+							p0x, p0y, p1x, p1y, c0x, c0y, c1x, c1y, radius, start, end, cx, cy;
 
 					if (pathType === "bezier") {
 						step = 1 / (pathSize - 1);
-						var p0x = path[2],
-								p0y = path[3],
-								p1x = path[4],
-								p1y = path[5],
-								c0x = path[6],
-								c0y = path[7],
-								c1x = path[8],
-								c1y = path[9];
+						p0x = path[2];
+						p0y = path[3];
+						p1x = path[4];
+						p1y = path[5];
+						c0x = path[6];
+						c0y = path[7];
+						c1x = path[8];
+						c1y = path[9];
 					} else if (pathType === "line") {
 						step = 1 / (pathSize - 1);
-						var p0x = path[2],
-								p0y = path[3],
-								p1x = path[4],
-								p1y = path[5];
+						p0x = path[2];
+						p0y = path[3];
+						p1x = path[4];
+						p1y = path[5];
 					} else if (pathType === "arc") {
 						step = 1 / pathSize;
-						var cx = path[2],
-								cy = path[3],
-								radius = path[4],
-								start = this._deg2rad(path[5]),
-								end = this._deg2rad(path[6]);
+						cx = path[2];
+						cy = path[3];
+						radius = path[4];
+						start = this._deg2rad(path[5]);
+						end = this._deg2rad(path[6]);
 					} else {
 						throw new Error("Unknown path type");
 					}
