@@ -178,6 +178,7 @@ $.widget("wavy.wavy", {
 						throw new Error("Unknown path type");
 					}
 
+					/* jshint -W083 */
 					$("." + this.options.slotClass, this.element).slice(k, k + pathSize).each(function() {
 							var ret;
 
@@ -195,6 +196,7 @@ $.widget("wavy.wavy", {
 									top: Math.round(ret.y) + "px"
 							});
 					});
+					/* jshint +W083 */
 
 					k += pathSize;
 				}
