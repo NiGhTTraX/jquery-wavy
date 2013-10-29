@@ -922,7 +922,7 @@ asyncTest("test_drag_and_drop_item_between_wavys", function() {
 		var fixture = $("#qunit-fixture");
 		var w1 = $("#w1"),
 				w2 = $("#w2");
-		var item = $("<div></div>").attr("id", "i1").text("test1").addClass("test-item");
+		var item = $("<div></div>").text("test").addClass("test-item");
 		w1.wavy("addItem", item, 0);
 
 		Syn.drag({ to: "#w2 .wavy-slot:first", duration: 100 }, item);
@@ -942,8 +942,8 @@ asyncTest("test_drag_and_drop_item_between_wavys_with_scopes", function() {
 		w1.wavy("option", "scope", "w1");
 		w2.wavy("option", "scope", "w2");
 
-		var i1 = $("<div></div>").attr("id", "i1").text("test1").addClass("test-item");
-		var i2 = $("<div></div>").attr("id", "i1").text("test1").addClass("test-item");
+		var i1 = $("<div></div>").text("test1").addClass("test-item");
+		var i2 = $("<div></div>").text("test2").addClass("test-item");
 		w1.wavy("addItem", i1, 0);
 		w2.wavy("addItem", i2, 0);
 
@@ -961,8 +961,8 @@ asyncTest("test_drag_and_drop_item_between_wavys_with_shifting", function() {
 		var w1 = $("#w1"),
 				w2 = $("#w2");
 
-		var i1 = $("<div></div>").attr("id", "i1").text("test1").addClass("test-item");
-		var i2 = $("<div></div>").attr("id", "i1").text("test1").addClass("test-item");
+		var i1 = $("<div></div>").text("test1").addClass("test-item");
+		var i2 = $("<div></div>").text("test2").addClass("test-item");
 		w1.wavy("addItem", i1, 0);
 		w2.wavy("addItem", i2, 0);
 
@@ -979,7 +979,7 @@ asyncTest("test_drag_and_drop_item_between_wavys_back_and_forth", function() {
 		var fixture = $("#qunit-fixture");
 		var w1 = $("#w1"),
 				w2 = $("#w2");
-		var item = $("<div></div>").attr("id", "i1").text("test1").addClass("test-item");
+		var item = $("<div></div>").text("test").addClass("test-item");
 		w1.wavy("addItem", item, 0);
 
 		Syn.drag({ to: "#w2 .wavy-slot:first", duration: 100 }, item);
@@ -999,8 +999,8 @@ asyncTest("test_drag_and_drop_item_from_wavy_to_full_wavy", function() {
 		var fixture = $("#qunit-fixture");
 		var w1 = $("#w1"),
 				w2 = $("#w2");
-		var i1 = $("<div></div>").attr("id", "i1").text("test1").addClass("test-item");
-		var i2 = $("<div></div>").attr("id", "i1").text("test1").addClass("test-item");
+		var i1 = $("<div></div>").text("test1").addClass("test-item");
+		var i2 = $("<div></div>").text("test2").addClass("test-item");
 		w1.wavy("addItem", i1, 0);
 
 		for (var i = 0; i < 5; i++) {
