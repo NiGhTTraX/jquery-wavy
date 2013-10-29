@@ -985,11 +985,11 @@ asyncTest("test_drag_and_drop_item_between_wavys_back_and_forth", function() {
 		Syn.drag({ to: "#w2 .wavy-slot:first", duration: 100 }, item);
 		setTimeout(function() {
 				item = $(".test-item");
-				Syn.drag({ to: "#w1 .wavy-slot:first", duration: 100 }, item);
+				Syn.drag({ to: "#w1 .wavy-slot:last", duration: 100 }, item);
 		}, 200);
 
 		setTimeout(function() {
-				testWavy(w1, [item, 0, 0, 0, 0]);
+				testWavy(w1, [0, 0, 0, 0, item]);
 				testWavy(w2, [0, 0, 0, 0, 0]);
 				start();
 		}, 400);
