@@ -875,6 +875,25 @@ test("test_drag_and_drop_item_between_wavys", function() {
 		testWavy(w2, [0, 0, 0, 0, item]);
 });
 
+test("test_drag_and_drop_item_between_wavys_with_same_scopes", function() {
+		var fixture = $("#qunit-fixture");
+		var w1 = $("#w1"),
+				w2 = $("#w2");
+
+		w1.wavy("option", "scope", "w");
+		w2.wavy("option", "scope", "w");
+
+		var i1 = $("<div></div>").text("test1").addClass("test-item");
+		var i2 = $("<div></div>").text("test2").addClass("test-item");
+		w1.wavy("addItem", i1, 0);
+		w2.wavy("addItem", i2, 0);
+
+		dd(i1, "#w2 .wavy-slot:first");
+
+		testWavy(w1, [0, 0, 0, 0, 0]);
+		testWavy(w2, [i1, i2, 0, 0, 0]);
+});
+
 test("test_drag_and_drop_item_between_wavys_with_different_scopes", function() {
 		var fixture = $("#qunit-fixture");
 		var w1 = $("#w1"),
