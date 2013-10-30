@@ -1,3 +1,4 @@
+module("multiple_paths");
 test("test_create_multiple_paths", function() {
 		var fixture = $("#qunit-fixture");
 		var w = $("<div></div>");
