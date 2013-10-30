@@ -95,3 +95,26 @@ test("test_drag_between_multiple_paths_last_of_1st_path_to_last_of_2nd_path", fu
 		testWavy(w, [0, 0, 0, 0, 0, 0, 0, 0, 0, item]);
 });
 
+test("test_add_item_shifting_into_2nd_path", function() {
+		var fixture = $("#qunit-fixture"),
+				w = $("#w"),
+				i1 = $("<div></div>").text("test1").addClass("test-item"),
+				i2 = $("<div></div>").text("test2").addClass("test-item");
+		w.wavy("addItem", i1, 4);
+		w.wavy("addItem", i2, 4);
+
+		testWavy(w, [0, 0, 0, 0, i2, i1, 0, 0, 0, 0]);
+});
+
+test("test_add_item_shifting_from_2nd_path", function() {
+		var fixture = $("#qunit-fixture"),
+				w = $("#w"),
+				i1 = $("<div></div>").text("test1").addClass("test-item"),
+				i2 = $("<div></div>").text("test2").addClass("test-item");
+		w.wavy("option", "shiftDirection", "left");
+		w.wavy("addItem", i1, 5);
+		w.wavy("addItem", i2, 5);
+
+		testWavy(w, [0, 0, 0, 0, i1, i2, 0, 0, 0, 0]);
+});
+
