@@ -49,8 +49,8 @@ test("test_drag_and_drop_wavy_full", function() {
 		item.appendTo(fixture);
 		item.draggable({ helper: "clone" });
 
-		dd(item, ".wavy-slot:first");
-		dd(item, ".wavy-slot:first");
+		dd(item, $(".wavy-slot:first", w));
+		dd(item, $(".wavy-slot:first", w));
 
 		testWavy(w, [item]);
 });

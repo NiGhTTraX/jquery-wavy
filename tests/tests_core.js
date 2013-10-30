@@ -175,7 +175,7 @@ test("test_drag_and_drop_item_without_helper_clone_retains_item", function() {
 		item.appendTo(fixture);
 		item.draggable();
 
-		dd(item, ".wavy-slot:first");
+		dd(item, $(".wavy-slot:first", w));
 
 		equal($(".test-item", fixture).length, 2);
 });
@@ -190,7 +190,7 @@ test("test_drag_and_drop_item_with_helper_clone_retains_item", function() {
 		item.appendTo(fixture);
 		item.draggable({ helper: "clone" });
 
-		dd(item, ".wavy-slot:first");
+		dd(item, $(".wavy-slot:first", w));
 
 		equal($(".test-item", fixture).length, 2);
 });

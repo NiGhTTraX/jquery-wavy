@@ -13,7 +13,7 @@ test("test_drag_and_drop_item_to_first_slot", function() {
 		item.appendTo(fixture);
 		item.draggable();
 
-		dd(item, ".wavy-slot:first");
+		dd(item, $(".wavy-slot:first", w));
 		var expected = [item, 0, 0, 0, 0];
 		testWavy(w, expected);
 });
@@ -25,7 +25,7 @@ test("test_drag_and_drop_item_to_last_slot", function() {
 		item.appendTo(fixture);
 		item.draggable();
 
-		dd(item, ".wavy-slot:last");
+		dd(item, $(".wavy-slot:last", w));
 		var expected = [0, 0, 0, 0, item];
 		testWavy(w, expected);
 });
@@ -40,10 +40,9 @@ test("test_drag_and_drop_item_to_occupied_first_slot", function() {
 		item1.draggable({ helper: "clone" });
 		item2.draggable({ helper: "clone" });
 
-		var slot = ".wavy-slot:first";
+		var slot = $(".wavy-slot:first", w);
 
 		dd(item1, slot);
-
 		dd(item2, slot);
 
 		var expected = [item2, item1, 0, 0, 0];
@@ -60,10 +59,9 @@ test("test_drag_and_drop_item_to_occupied_last_slot", function() {
 		item1.draggable({ helper: "clone" });
 		item2.draggable({ helper: "clone" });
 
-		var slot = ".wavy-slot:last";
+		var slot = $(".wavy-slot:last", w);
 
 		dd(item1, slot);
-
 		dd(item2, slot);
 
 		var expected = [0, 0, 0, item1, item2];
@@ -84,8 +82,8 @@ test("test_drag_and_drop_full_wavy", function() {
 		w.wavy("addItem", item2, 3);
 		w.wavy("addItem", item1, 4);
 
-		var from = ".test-item:last";
-		var to = ".wavy-slot:first";
+		var from = $(".test-item:last", fixture);
+		var to = $(".wavy-slot:first", w);
 		dd(item1, to);
 
 		var expected = [item1, item1, item2, item1, item2];
@@ -99,7 +97,7 @@ test("test_drag_and_drop_item_to_wavy_itself", function() {
 		item.appendTo(fixture);
 		item.draggable({ helper: "clone" });
 
-		dd(item, ".wavy");
+		dd(item, $(".wavy", fixture));
 
 		var expected = [item, 0, 0, 0, 0];
 		testWavy(w, expected);
@@ -122,7 +120,7 @@ test("test_drag_and_drop_item_in_wavy_from_first_to_last_slot", function() {
 
 		w.wavy("addItem", item, 0);
 
-		dd(item, ".wavy-slot:last");
+		dd(item, $(".wavy-slot:last", w));
 
 		var expected = [0, 0, 0, 0, item];
 		testWavy(w, expected);
@@ -136,7 +134,7 @@ test("test_drag_and_drop_item_in_wavy_from_last_to_first", function() {
 
 		w.wavy("addItem", item, 4);
 
-		dd(item, ".wavy-slot:first");
+		dd(item, $(".wavy-slot:first", w));
 
 		var expected = [item, 0, 0, 0, 0];
 		testWavy(w, expected);
@@ -150,9 +148,8 @@ test("test_drag_and_drop_item_in_wavy_back_and_forth", function() {
 
 		w.wavy("addItem", item, 0);
 
-		dd(item, ".wavy-slot:last");
-
-		dd(item, ".wavy-slot:first");
+		dd(item, $(".wavy-slot:last", w));
+		dd(item, $(".wavy-slot:first", w));
 
 		var expected = [item, 0, 0, 0, 0];
 		testWavy(w, expected);
@@ -166,7 +163,7 @@ test("test_drag_item_in_wavy_and_drop_on_wavy", function() {
 
 		w.wavy("addItem", item, 0);
 
-		dd(item, ".wavy");
+		dd(item, $(".wavy", fixture));
 
 		var expected = [item, 0, 0, 0, 0];
 		testWavy(w, expected);
@@ -186,7 +183,7 @@ test("test_drag_and_drop_item_in_wavy_that_shifts_others", function() {
 		w.wavy("addItem", item2, 1);
 		w.wavy("addItem", item3, 2);
 
-		dd(item3, ".wavy-slot:first");
+		dd(item3, $(".wavy-slot:first", w));
 
 		var expected = [item3, item1, item2, 0, 0];
 		testWavy(w, expected);
