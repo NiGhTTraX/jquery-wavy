@@ -80,6 +80,10 @@ $.widget("wavy.wavy", {
 								$(this).draggable("option", "scope", scope);
 						});
 				});
+
+				if (this.options.acceptOnWavy) {
+					this.element.droppable("option", "scope", scope);
+				}
 		},
 
 		_createSelector: function() {
