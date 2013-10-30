@@ -66,15 +66,14 @@ $.widget("wavy.wavy", {
 		_setOption: function(key, value) {
 				switch(key) {
 						case "scope":
-								this.options.scope = value;
-								this._updateScope();
+								this._updateScope(value);
 								break;
 				}
+
+				this._super(key, value);
 		},
 
-		_updateScope: function() {
-				var scope = this.options.scope;
-
+		_updateScope: function(scope) {
 				$("." + this.options.slotClass, this.element).each(function() {
 						$(this).droppable("option", "scope", scope);
 						$(this).children().each(function() {
