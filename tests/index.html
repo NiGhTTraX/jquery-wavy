@@ -6,6 +6,11 @@
     <script type="text/javascript" src="../resources/jquery.simulate.min.js"></script>
     <script type="text/javascript" src="../resources/qunit-1.12.0.min.js"></script>
     <script type="text/javascript" src="../resources/blanket-1.1.5.min.js"></script>
+    <script type="text/javascript">
+      if (location.href.match(/(\?|&)gruntReport($|&|=)/)) {
+        blanket.options("reporter", "../resources/grunt-reporter.min.js");
+      }
+    </script>
     <script type="text/javascript" src="../src/jquery-wavy.js" data-cover></script>
     <script type="text/javascript" src="tests.js"></script>
     <link rel="stylesheet" type="text/css" href="../resources/qunit-1.12.0.min.css">

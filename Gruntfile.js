@@ -27,19 +27,20 @@ module.exports = function(grunt) {
 			}
 		},
 
-		qunit: {
-			all: {
-				options: {
-					urls: ['http://localhost:8000/tests/index.html']
-				}
-			}
-		},
-
 		connect: {
 			server: {
 				options: {
 					port: 8000,
 					base: '.'
+				}
+			}
+		},
+
+		blanket_qunit: {
+			all: {
+				options: {
+					urls: ['http://localhost:8000/tests/index.html?coverage=true&gruntReport'],
+					threshold: 90
 				}
 			}
 		}
@@ -48,11 +49,12 @@ module.exports = function(grunt) {
 	// Grunt plugins.
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks( "grunt-contrib-qunit" );
-	grunt.loadNpmTasks( "grunt-contrib-connect" );
+	grunt.loadNpmTasks('grunt-contrib-qunit');
+	grunt.loadNpmTasks('grunt-contrib-connect');
+	grunt.loadNpmTasks('grunt-blanket-qunit');
 
 	// Tasks.
-	grunt.registerTask('test', ['connect', 'qunit']);
+	grunt.registerTask('test', ['connect', 'blanket_qunit']);
 	grunt.registerTask('default', ['jshint', 'test', 'uglify']);
 };
 
