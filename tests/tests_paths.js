@@ -71,3 +71,42 @@ test("test_make_sortable_custom_wavy", function() {
 		testWavy(w, expected);
 });
 
+test("test_path_with_offset_20_20", function() {
+		var fixture = $("#qunit-fixture");
+		var w = $("<div></div>");
+		w.css({
+				position: "absolute",
+				left: "20px",
+				top: "20px"
+		});
+		w.appendTo(fixture);
+		w.wavy({
+				offset: true,
+				path: [["line", 5, 0, 0, 300, 300]]
+		});
+
+		var expectedX = [-20, 55, 130, 205, 280];
+		var expectedY = [-20, 55, 130, 205, 280];
+		$(".wavy-slot", w).each(function(i) {
+				equal($(this).css("left"), expectedX[i] + "px");
+				equal($(this).css("top"), expectedY[i] + "px");
+		});
+});
+
+test("test_path_with_offset_0_0", function() {
+		var fixture = $("#qunit-fixture");
+		var w = $("<div></div>");
+		w.appendTo(fixture);
+		w.wavy({
+				offset: true,
+				path: [["line", 5, 0, 0, 300, 300]]
+		});
+
+		var expectedX = [0, 75, 150, 225, 300];
+		var expectedY = [0, 75, 150, 225, 300];
+		$(".wavy-slot", w).each(function(i) {
+				equal($(this).css("left"), expectedX[i] + "px");
+				equal($(this).css("top"), expectedY[i] + "px");
+		});
+});
+

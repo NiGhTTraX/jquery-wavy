@@ -24,6 +24,7 @@ $.widget("wavy.wavy", {
 				acceptOnWavy: true,
 				scope: "default",
 				path: "none",
+				offset: false,
 		},
 
 		_create: function() {
@@ -152,6 +153,7 @@ $.widget("wavy.wavy", {
 							pathType = path[0],
 							pathSize = path[1],
 							t = 0, step,
+							offsetX = 0, offsetY = 0, offset,
 							p0x, p0y, p1x, p1y, c0x, c0y, c1x, c1y, radius, start, end, cx, cy;
 
 					if (pathType === "bezier") {
@@ -181,6 +183,13 @@ $.widget("wavy.wavy", {
 						throw new Error("Unknown path type");
 					}
 
+					if (this.options.offset === true) {
+						// Coordinates are against the parent, calculate offsets.
+						offset = this.element.position();
+						offsetX = offset.left;
+						offsetY = offset.top;
+					}
+
 					/* jshint -W083 */
 					$("." + this.options.slotClass, this.element).slice(k, k + pathSize).each(function() {
 							var ret;
@@ -195,8 +204,8 @@ $.widget("wavy.wavy", {
 							t += step;
 
 							$(this).css({
-									left: Math.round(ret.x) + "px",
-									top: Math.round(ret.y) + "px"
+									left: Math.round(ret.x) - offsetX + "px",
+									top: Math.round(ret.y) - offsetY + "px"
 							});
 					});
 					/* jshint +W083 */
