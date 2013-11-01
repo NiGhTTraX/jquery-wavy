@@ -12,7 +12,6 @@ test("test_place_line_wavy", function() {
 		$(".wavy-slot", w).each(function(i) {
 				equal($(this).css("left"), expectedX[i] + "px");
 				equal($(this).css("top"), expectedY[i] + "px");
-				i++;
 		});
 });
 
@@ -29,7 +28,6 @@ test("test_place_arc_wavy", function() {
 		$(".wavy-slot", w).each(function(i) {
 				equal($(this).css("left"), expectedX[i] + "px");
 				equal($(this).css("top"), expectedY[i] + "px");
-				i++;
 		});
 });
 
@@ -46,7 +44,6 @@ test("test_place_bezier_wavy", function() {
 		$(".wavy-slot", w).each(function(i) {
 				equal($(this).css("left"), expectedX[i] + "px");
 				equal($(this).css("top"), expectedY[i] + "px");
-				i++;
 		});
 });
 
