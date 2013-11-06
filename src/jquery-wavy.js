@@ -25,6 +25,7 @@ $.widget("wavy.wavy", {
 				scope: "default",
 				path: "none",
 				offset: false,
+				rotate: false,
 		},
 
 		_create: function() {
@@ -104,11 +105,14 @@ $.widget("wavy.wavy", {
 						a = x * t,
 						b = 3 * x * i,
 						c = 3 * t * y,
-						d = y * i;
+						d = y * i,
+						tx = x * (c0x - p0x) + 2 * i * t * (c1x - c0x) + y * (p1x - c1x),
+						ty = x * (c0y - p0y) + 2 * i * t * (c1y - c0y) + y * (p1y - c1y);
 
 				return {
 						"x": a * p0x + b * c0x + c * c1x + d * p1x,
-						"y": a * p0y + b * c0y + c * c1y + d * p1y
+						"y": a * p0y + b * c0y + c * c1y + d * p1y,
+						"angle": Math.atan2(ty, tx)
 				};
 		},
 
@@ -125,7 +129,8 @@ $.widget("wavy.wavy", {
 		_pathLine: function(t, p0x, p0y, p1x, p1y) {
 				return {
 						"x": (p1x - p0x) * t + p0x,
-						"y": (p1y - p0y) * t + p0y
+						"y": (p1y - p0y) * t + p0y,
+						"angle": Math.atan2(p1y - p0y, p1x - p0x)
 				};
 		},
 
@@ -207,6 +212,9 @@ $.widget("wavy.wavy", {
 									left: Math.round(ret.x) - offsetX + "px",
 									top: Math.round(ret.y) - offsetY + "px"
 							});
+
+							if (that.options.rotate === true)
+								$(this).css("transform", "rotate(" + ret.angle.toFixed(2) + "rad)");
 					});
 					/* jshint +W083 */
 
