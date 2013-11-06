@@ -37,6 +37,15 @@
 <p>Wavy is a <a href="http://www.jqueryui.com">jQuery UI</a> plugin that creates sortable paths with absolutely positioned items. These paths have a number of slots that are positioned to follow a shape, or they can be positioned manually by the user. Items can be dragged into these slots and can be rearranged at any time. Multiple paths can be combined to form custom shapes and a number of options allow you to control how they work.</p>
 
 <h2>
+<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
+
+<ul>
+<li>make absolutely positioned items sortable</li>
+<li>position items on a straight line, on a circle arc, or on a cubic Bezier curve</li>
+<li>combine any number of paths to create custom shapes</li>
+<li>rotate items using CSS3 transformations so they align with the tangent of the path</li>
+<li>use API to programatically add, remove and move items</li>
+</ul><h2>
 <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 
 <p>Include <code>jquery-wavy.js</code> on your page, along with <a href="http://www.jquery.com">jQuery</a> and <a href="http://www.jqueryui.com">jQuery UI</a>, and execute the following:</p>
@@ -73,11 +82,19 @@
 <h2>
 <a name="building" class="anchor" href="#building"><span class="octicon octicon-link"></span></a>Building</h2>
 
-<p>Make sure you have nodejs, npm, grunt and grunt-cli installed and then run the following:</p>
+<p>Wavy uses the <a href="https://github.com/gruntjs/grunt">Grunt</a> build system. To build Wavy, you must have <a href="https://github.com/joyent/node">node.js</a> installed and then run the following commands:</p>
 
-<div class="highlight highlight-bash"><pre>git clone git@github.com:NiGhTTraX/jquery-wavy.git
+<div class="highlight highlight-bash"><pre><span class="c"># Install the Grunt CLI.</span>
+npm install -g grunt-cli
+
+<span class="c"># Clone the repository.</span>
+git clone git@github.com:NiGhTTraX/jquery-wavy.git
 <span class="nb">cd </span>jquery-wavy
+
+<span class="c"># Install node module dependencies.</span>
 npm install
+
+<span class="c"># Run the build task.</span>
 grunt
 </pre></div>
 
