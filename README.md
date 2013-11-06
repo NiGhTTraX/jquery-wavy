@@ -4,6 +4,16 @@ jquery-wavy
 Wavy is a [jQuery UI](http://www.jqueryui.com) plugin that creates sortable paths with absolutely positioned items. These paths have a number of slots that are positioned to follow a shape, or they can be positioned manually by the user. Items can be dragged into these slots and can be rearranged at any time. Multiple paths can be combined to form custom shapes and a number of options allow you to control how they work.
 
 
+Features
+--------
+
+* make absolutely positioned items sortable
+* position items on a straight line, on a circle arc, or on a cubic Bezier curve
+* combine any number of paths to create custom shapes
+* rotate items using CSS3 transformations so they align with the tangent of the path
+* use API to programatically add, remove and move items
+
+
 Usage
 -----
 
@@ -46,12 +56,20 @@ A wavy can contain multiple paths that do not have to connect at ends. They can 
 Building
 --------
 
-Make sure you have nodejs, npm, grunt and grunt-cli installed and then run the following:
+Wavy uses the [Grunt](https://github.com/gruntjs/grunt) build system. To build Wavy, you must have [node.js](https://github.com/joyent/node) installed and then run the following commands:
 
 ```bash
+# Install the Grunt CLI.
+npm install -g grunt-cli
+
+# Clone the repository.
 git clone git@github.com:NiGhTTraX/jquery-wavy.git
 cd jquery-wavy
+
+# Install node module dependencies.
 npm install
+
+# Run the build task.
 grunt
 ```
 
