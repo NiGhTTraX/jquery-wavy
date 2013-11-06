@@ -47,30 +47,6 @@ test("test_place_bezier_wavy", function() {
 		});
 });
 
-test("test_make_sortable_custom_wavy", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $("<div></div>");
-		w.appendTo(fixture);
-
-		var slot1 = $("<div></div>").addClass("wavy-slot");
-		slot1.css({ left: "10px", top: "23px" });
-		slot1.appendTo(w);
-
-		var slot2 = $("<div></div>").addClass("wavy-slot");
-		slot2.css({ left: "42px", top: "99px" });
-		slot2.appendTo(w);
-
-		w.wavy({ size: 2 });
-
-		var item1 = $("<div></div>").text("test1").addClass("test-item");
-		var item2 = $("<div></div>").text("test2").addClass("test-item");
-		w.wavy("addItem", item1, 0);
-		w.wavy("addItem", item2, 0);
-
-		var expected = [item2, item1];
-		testWavy(w, expected);
-});
-
 test("test_path_with_offset_20_20", function() {
 		var fixture = $("#qunit-fixture");
 		var w = $("<div></div>");

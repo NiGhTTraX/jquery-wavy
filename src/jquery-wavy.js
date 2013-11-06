@@ -47,7 +47,7 @@ $.widget("wavy.wavy", {
 						this._size += path[i][1];
 					}
 				} else {
-					this._size = this.options.size;
+					this._size = $("." + this.options.slotClass, this.element).length;
 				}
 
 				this._left = this._size;
@@ -289,6 +289,12 @@ $.widget("wavy.wavy", {
 										}
 								}
 						});
+
+						// Initialize any pre-existing items.
+						$(this).children().each(function() {
+								that._left -= 1;
+								that._makeItemDraggable($(this));
+						});
 				});
 
 				if (this.options.acceptOnWavy === true) {
@@ -373,43 +379,47 @@ $.widget("wavy.wavy", {
 				}
 		},
 
+		_makeItemDraggable: function(item) {
+				var that = this;
+
+				item.css({ left: 0, top: 0 });
+
+				item.draggable({
+						scope: that.options.scope,
+						revert: false,
+						helper: "clone",
+						appendTo: that.element,
+						start: function(e, ui) {
+								// Attach the index to the helper.
+								// This is useful if you want to interact with the original
+								// item when dragging outside of the wavy.
+								ui.helper.data("index", $(this).parent().index());
+
+								that._pickedUp = $(this);
+								$(this).addClass(that.options.placeholderClass);
+						},
+						stop: function(e, ui) {
+								/**
+								* This method is only triggered when dragging an element that
+								* is already part of the wavy, which means, the item will
+								* reside in the _pickedUp variable. When this is triggered,
+								* the placeholder should already be in the right position, so
+								* just remove the placeholder class and clear the variable.
+								*
+								* In this way, the original item is moved around, and not a
+								* copy of it.
+								*/
+								if (that._pickedUp) {
+									that._pickedUp.removeClass(that.options.placeholderClass);
+									that._pickedUp = null;
+								}
+						}
+				});
+		},
+
 		_addItem: function(item, slot) {
-					var that = this;
-
-					item.css({ left: 0, top: 0 });
-					item.draggable({
-							scope: that.options.scope,
-							revert: false,
-							helper: "clone",
-							appendTo: that.element,
-							start: function(e, ui) {
-									// Attach the index to the helper.
-									// This is useful if you want to interact with the original
-									// item when dragging outside of the wavy.
-									ui.helper.data("index", $(this).parent().index());
-
-									that._pickedUp = $(this);
-									$(this).addClass(that.options.placeholderClass);
-							},
-							stop: function(e, ui) {
-									/**
-									* This method is only triggered when dragging an element that
-									* is already part of the wavy, which means, the item will
-									* reside in the _pickedUp variable. When this is triggered,
-									* the placeholder should already be in the right position, so
-									* just remove the placeholder class and clear the variable.
-									*
-									* In this way, the original item is moved around, and not a
-									* copy of it.
-									*/
-									if (that._pickedUp) {
-										that._pickedUp.removeClass(that.options.placeholderClass);
-										that._pickedUp = null;
-									}
-							}
-					});
-
-					item.appendTo(slot);
+				this._makeItemDraggable(item);
+				item.appendTo(slot);
 		},
 
 		addItem: function(item, index) {
