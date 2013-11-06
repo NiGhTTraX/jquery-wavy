@@ -4,9 +4,9 @@ module.exports = function(grunt) {
 
 		uglify: {
 			options: {
-				banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %>\n' +
+				banner: '/* <%= pkg.name %> v<%= pkg.version %>\n' +
 								'(c) 2013, Andrei Picus\n' +
-								'License: GPL*/\n'
+								'License: GPL */\n'
 			},
 
 			build: {
