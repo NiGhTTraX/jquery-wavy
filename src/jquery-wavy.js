@@ -50,7 +50,7 @@ $.widget("wavy.wavy", {
 					this._size = $("." + this.options.slotClass, this.element).length;
 				}
 
-				this._left = this._size;
+				this._capacity = this._size;
 		},
 
 		_removeSlots: function(i) {
@@ -283,8 +283,8 @@ $.widget("wavy.wavy", {
 
 											// If this was our last empty slot, mark the wavy as
 											// full.
-											that._left -= 1;
-											if (that._left === 0)
+											that._capacity -= 1;
+											if (that._capacity === 0)
 												that.element.addClass("full");
 										}
 								}
@@ -292,7 +292,7 @@ $.widget("wavy.wavy", {
 
 						// Initialize any pre-existing items.
 						$(this).children().each(function() {
-								that._left -= 1;
+								that._capacity -= 1;
 								that._makeItemDraggable($(this));
 						});
 				});
@@ -445,8 +445,8 @@ $.widget("wavy.wavy", {
 
 				this._addItem(item, slot);
 
-				this._left -= 1;
-				if (this._left === 0)
+				this._capacity -= 1;
+				if (this._capacity === 0)
 					this.element.addClass("full");
 		},
 
@@ -456,13 +456,13 @@ $.widget("wavy.wavy", {
 
 				if (children.length) {
 					children.remove();
-					this._left += 1;
+					this._capacity += 1;
 					this.element.removeClass("full");
 				}
 		},
 
 		capacity: function() {
-				return this._left;
+				return this._capacity;
 		}
 });
 
