@@ -43,7 +43,7 @@ $.widget("wavy.wavy", {
 				this._size = 0;
 
 				if (path !== "none") {
-					for (i = 0, l = path.length; i < l; i++) {
+					for (var i = 0, l = path.length; i < l; i++) {
 						this._size += path[i][1];
 					}
 				} else {
@@ -149,7 +149,6 @@ $.widget("wavy.wavy", {
 					return;
 
 				var that = this,
-						size = this._size,
 						_path = this.options.path;
 
 				var k = 0;
@@ -275,7 +274,7 @@ $.widget("wavy.wavy", {
 											// Was this an element from another wavy?
 											var otherWavy = ui.helper.parent();
 											if (otherWavy.hasClass("wavy") &&
-													otherWavy != that.element) {
+													otherWavy !== that.element) {
 												// Remove the original element.
 												var index = ui.helper.data("index");
 												otherWavy.wavy("removeItem", index);
@@ -363,8 +362,8 @@ $.widget("wavy.wavy", {
 		},
 
 		_shift: function(i, j) {
-				var dir, start, end, k;
-				var selector = this._createSelector();
+				var k,
+						selector = this._createSelector();
 
 				if (i < j) {
 					for (k = j; k > i; k--) {
@@ -398,7 +397,7 @@ $.widget("wavy.wavy", {
 								that._pickedUp = $(this);
 								$(this).addClass(that.options.placeholderClass);
 						},
-						stop: function(e, ui) {
+						stop: function() {
 								/**
 								* This method is only triggered when dragging an element that
 								* is already part of the wavy, which means, the item will

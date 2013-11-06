@@ -8,9 +8,9 @@ function getTransformMatrix(el) {
 					null;
 
 	if (matrix === null)
-		ok(1 == 2);
+		ok(false);
 
-	return matrix.split('(')[1].split(')')[0].split(',');
+	return matrix.split("(")[1].split(")")[0].split(",");
 }
 
 function getAngle(m) {
@@ -24,8 +24,8 @@ function getAngle(m) {
 
 module("rotate");
 test("test_rotate_line", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $("<div></div>");
+		var fixture = $("#qunit-fixture"),
+				w = $("<div></div>");
 		w.appendTo(fixture);
 		w.wavy({
 				rotate: true,
@@ -40,8 +40,8 @@ test("test_rotate_line", function() {
 });
 
 test("test_rotate_arc", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $("<div></div>");
+		var fixture = $("#qunit-fixture"),
+				w = $("<div></div>");
 		w.appendTo(fixture);
 		w.wavy({
 				rotate: true,
@@ -56,8 +56,8 @@ test("test_rotate_arc", function() {
 });
 
 test("test_rotate_bezier", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $("<div></div>");
+		var fixture = $("#qunit-fixture"),
+				w = $("<div></div>");
 		w.appendTo(fixture);
 		w.wavy({
 				rotate: true,

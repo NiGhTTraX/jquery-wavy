@@ -1,7 +1,7 @@
 module("core");
 test("test_create", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $("<div></div>");
+		var fixture = $("#qunit-fixture"),
+				w = $("<div></div>");
 		w.appendTo(fixture);
 		w.wavy();
 
@@ -9,8 +9,8 @@ test("test_create", function() {
 });
 
 test("test_create_with_path", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $("<div></div>");
+		var fixture = $("#qunit-fixture"),
+				w = $("<div></div>");
 		w.appendTo(fixture);
 		w.wavy({ path: [["line", 2, 0, 0, 100, 100]] });
 
@@ -18,8 +18,8 @@ test("test_create_with_path", function() {
 });
 
 test("test_destroy", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $("<div></div>");
+		var fixture = $("#qunit-fixture"),
+				w = $("<div></div>");
 		w.appendTo(fixture);
 		w.wavy({ path: [["line", 2, 0, 0, 100, 100]] });
 
@@ -30,12 +30,12 @@ test("test_destroy", function() {
 });
 
 test("test_destroy_full", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $("<div></div>");
+		var fixture = $("#qunit-fixture"),
+				w = $("<div></div>"),
+				item = $("<div></div>").text("test").addClass("test-item");
 		w.appendTo(fixture);
 		w.wavy({ path: [["line", 1, 0, 0, 100, 100]] });
 
-		var item = $("<div></div>").text("test").addClass("test-item");
 		w.wavy("addItem", item);
 		w.wavy("destroy");
 
@@ -45,15 +45,15 @@ test("test_destroy_full", function() {
 });
 
 test("test_destroy_custom_wavy", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $("<div></div>");
+		var fixture = $("#qunit-fixture"),
+				w = $("<div></div>"),
+				slot1 = $("<div></div>").addClass("wavy-slot"),
+				slot2 = $("<div></div>").addClass("wavy-slot");
 		w.appendTo(fixture);
 
-		var slot1 = $("<div></div>").addClass("wavy-slot");
 		slot1.css({ left: "10px", top: "23px" });
 		slot1.appendTo(w);
 
-		var slot2 = $("<div></div>").addClass("wavy-slot");
 		slot2.css({ left: "42px", top: "99px" });
 		slot2.appendTo(w);
 
@@ -65,12 +65,12 @@ test("test_destroy_custom_wavy", function() {
 });
 
 test("test_add_item_removes_item", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $("<div></div>");
+		var fixture = $("#qunit-fixture"),
+				w = $("<div></div>"),
+				item = $("<div></div>").text("test").addClass("test-item");
 		w.appendTo(fixture);
 		w.wavy({ path: [["line", 10, 0, 0, 300, 0]] });
 
-		var item = $("<div></div>").text("test").addClass("test-item");
 		item.appendTo(fixture);
 
 		w.wavy("addItem", item);
@@ -78,12 +78,12 @@ test("test_add_item_removes_item", function() {
 });
 
 test("test_add_item_clone", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $("<div></div>");
+		var fixture = $("#qunit-fixture"),
+				w = $("<div></div>"),
+				item = $("<div></div>").text("test").addClass("test-item");
 		w.appendTo(fixture);
 		w.wavy({ path: [["line", 10, 0, 0, 300, 0]] });
 
-		var item = $("<div></div>").text("test").addClass("test-item");
 		item.appendTo(fixture);
 
 		w.wavy("addItem", item.clone());
@@ -91,12 +91,12 @@ test("test_add_item_clone", function() {
 });
 
 test("test_drag_and_drop_item_without_helper_clone_retains_item", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $("<div></div>");
+		var fixture = $("#qunit-fixture"),
+				w = $("<div></div>"),
+				item = $("<div></div>").text("test").addClass("test-item");
 		w.appendTo(fixture);
 		w.wavy({ path: [["line", 10, 0, 0, 300, 0]] });
 
-		var item = $("<div></div>").text("test").addClass("test-item");
 		item.appendTo(fixture);
 		item.draggable();
 
@@ -106,12 +106,12 @@ test("test_drag_and_drop_item_without_helper_clone_retains_item", function() {
 });
 
 test("test_drag_and_drop_item_with_helper_clone_retains_item", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $("<div></div>");
+		var fixture = $("#qunit-fixture"),
+				w = $("<div></div>"),
+				item = $("<div></div>").text("test").addClass("test-item");
 		w.appendTo(fixture);
 		w.wavy({ path: [["line", 10, 0, 0, 300, 0]] });
 
-		var item = $("<div></div>").text("test").addClass("test-item");
 		item.appendTo(fixture);
 		item.draggable({ helper: "clone" });
 
@@ -121,14 +121,14 @@ test("test_drag_and_drop_item_with_helper_clone_retains_item", function() {
 });
 
 test("test_shift_items_from_first", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $("<div></div>");
+		var fixture = $("#qunit-fixture"),
+				w = $("<div></div>"),
+				item1 = $("<div></div>").text("test1").addClass("test-item"),
+				item2 = $("<div></div>").text("test1").addClass("test-item"),
+				item3 = $("<div></div>").text("test1").addClass("test-item");
 		w.appendTo(fixture);
 		w.wavy({ path: [["line", 3, 0, 0, 300, 0]] });
 
-		var item1 = $("<div></div>").text("test1").addClass("test-item");
-		var item2 = $("<div></div>").text("test1").addClass("test-item");
-		var item3 = $("<div></div>").text("test1").addClass("test-item");
 		item1.appendTo(fixture);
 		item2.appendTo(fixture);
 		item3.appendTo(fixture);
@@ -142,14 +142,14 @@ test("test_shift_items_from_first", function() {
 });
 
 test("test_shift_items_from_last", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $("<div></div>");
+		var fixture = $("#qunit-fixture"),
+				w = $("<div></div>"),
+				item1 = $("<div></div>").text("test1").addClass("test-item"),
+				item2 = $("<div></div>").text("test1").addClass("test-item"),
+				item3 = $("<div></div>").text("test1").addClass("test-item");
 		w.appendTo(fixture);
 		w.wavy({ path: [["line", 3, 0, 0, 300, 0]] });
 
-		var item1 = $("<div></div>").text("test1").addClass("test-item");
-		var item2 = $("<div></div>").text("test1").addClass("test-item");
-		var item3 = $("<div></div>").text("test1").addClass("test-item");
 		item1.appendTo(fixture);
 		item2.appendTo(fixture);
 		item3.appendTo(fixture);
@@ -281,6 +281,7 @@ test("test_modify_slots", function() {
 
 		w.wavy("addItem", item.clone());
 		w.wavy("addItem", item.clone());
-		testWavy(w, [item, item, 0, 0, 0]);
+		var expected = [item, item, 0, 0, 0];
+		testWavy(w, expected);
 });
 

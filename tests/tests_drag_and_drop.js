@@ -1,15 +1,15 @@
 module("drag_and_drop", {
 		setup: function() {
-				var fixture = $("#qunit-fixture");
-				var w = $("<div></div>");
+				var fixture = $("#qunit-fixture"),
+						w = $("<div></div>");
 				w.appendTo(fixture);
 				w.wavy({ path: [["line", 5, 0, 0, 300, 0]] });
 		}
 });
 test("test_drag_and_drop_item_to_first_slot", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $(".wavy", fixture);
-		var item = $("<div></div>").text("test").addClass("test-item");
+		var fixture = $("#qunit-fixture"),
+				w = $(".wavy", fixture),
+				item = $("<div></div>").text("test").addClass("test-item");
 		item.appendTo(fixture);
 		item.draggable();
 
@@ -19,9 +19,9 @@ test("test_drag_and_drop_item_to_first_slot", function() {
 });
 
 test("test_drag_and_drop_item_to_last_slot", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $(".wavy", fixture);
-		var item = $("<div></div>").text("test").addClass("test-item");
+		var fixture = $("#qunit-fixture"),
+				w = $(".wavy", fixture),
+				item = $("<div></div>").text("test").addClass("test-item");
 		item.appendTo(fixture);
 		item.draggable();
 
@@ -31,10 +31,10 @@ test("test_drag_and_drop_item_to_last_slot", function() {
 });
 
 test("test_drag_and_drop_item_to_occupied_first_slot", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $(".wavy", fixture);
-		var item1 = $("<div></div>").text("test1").addClass("test-item");
-		var item2 = $("<div></div>").text("test2").addClass("test-item");
+		var fixture = $("#qunit-fixture"),
+				w = $(".wavy", fixture),
+				item1 = $("<div></div>").text("test1").addClass("test-item"),
+				item2 = $("<div></div>").text("test2").addClass("test-item");
 		item1.appendTo(fixture);
 		item2.appendTo(fixture);
 		item1.draggable({ helper: "clone" });
@@ -50,10 +50,10 @@ test("test_drag_and_drop_item_to_occupied_first_slot", function() {
 });
 
 test("test_drag_and_drop_item_to_occupied_last_slot", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $(".wavy", fixture);
-		var item1 = $("<div></div>").text("test1").addClass("test-item");
-		var item2 = $("<div></div>").text("test2").addClass("test-item");
+		var fixture = $("#qunit-fixture"),
+				w = $(".wavy", fixture),
+				item1 = $("<div></div>").text("test1").addClass("test-item"),
+				item2 = $("<div></div>").text("test2").addClass("test-item");
 		item1.appendTo(fixture);
 		item2.appendTo(fixture);
 		item1.draggable({ helper: "clone" });
@@ -69,10 +69,10 @@ test("test_drag_and_drop_item_to_occupied_last_slot", function() {
 });
 
 test("test_drag_and_drop_full_wavy", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $(".wavy", fixture);
-		var item1 = $("<div></div>").text("test1").addClass("test-item");
-		var item2 = $("<div></div>").text("test2").addClass("test-item");
+		var fixture = $("#qunit-fixture"),
+				w = $(".wavy", fixture),
+				item1 = $("<div></div>").text("test1").addClass("test-item"),
+				item2 = $("<div></div>").text("test2").addClass("test-item");
 		item1.appendTo(fixture);
 		item2.appendTo(fixture);
 
@@ -82,7 +82,6 @@ test("test_drag_and_drop_full_wavy", function() {
 		w.wavy("addItem", item2, 3);
 		w.wavy("addItem", item1, 4);
 
-		var from = $(".test-item:last", fixture);
 		var to = $(".wavy-slot:first", w);
 		dd(item1, to);
 
@@ -91,9 +90,9 @@ test("test_drag_and_drop_full_wavy", function() {
 });
 
 test("test_drag_and_drop_item_to_wavy_itself", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $(".wavy", fixture);
-		var item = $("<div></div>").text("test").addClass("test-item");
+		var fixture = $("#qunit-fixture"),
+				w = $(".wavy", fixture),
+				item = $("<div></div>").text("test").addClass("test-item");
 		item.appendTo(fixture);
 		item.draggable({ helper: "clone" });
 
@@ -106,16 +105,16 @@ test("test_drag_and_drop_item_to_wavy_itself", function() {
 
 module("drag_and_drop", {
 		setup: function() {
-				var fixture = $("#qunit-fixture");
-				var w = $("<div></div>");
+				var fixture = $("#qunit-fixture"),
+						w = $("<div></div>");
 				w.appendTo(fixture);
 				w.wavy({ path: [["line", 5, 0, 0, 300, 0]] });
 		}
 });
 test("test_drag_and_drop_item_in_wavy_from_first_to_last_slot", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $(".wavy", fixture);
-		var item = $("<div></div>").text("test").addClass("test-item");
+		var fixture = $("#qunit-fixture"),
+				w = $(".wavy", fixture),
+				item = $("<div></div>").text("test").addClass("test-item");
 		item.appendTo(fixture);
 
 		w.wavy("addItem", item, 0);
@@ -127,9 +126,9 @@ test("test_drag_and_drop_item_in_wavy_from_first_to_last_slot", function() {
 });
 
 test("test_drag_and_drop_item_in_wavy_from_last_to_first", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $(".wavy", fixture);
-		var item = $("<div></div>").text("test").addClass("test-item");
+		var fixture = $("#qunit-fixture"),
+				w = $(".wavy", fixture),
+				item = $("<div></div>").text("test").addClass("test-item");
 		item.appendTo(fixture);
 
 		w.wavy("addItem", item, 4);
@@ -141,9 +140,9 @@ test("test_drag_and_drop_item_in_wavy_from_last_to_first", function() {
 });
 
 test("test_drag_and_drop_item_in_wavy_back_and_forth", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $(".wavy", fixture);
-		var item = $("<div></div>").text("test").addClass("test-item");
+		var fixture = $("#qunit-fixture"),
+				w = $(".wavy", fixture),
+				item = $("<div></div>").text("test").addClass("test-item");
 		item.appendTo(fixture);
 
 		w.wavy("addItem", item, 0);
@@ -156,9 +155,9 @@ test("test_drag_and_drop_item_in_wavy_back_and_forth", function() {
 });
 
 test("test_drag_item_in_wavy_and_drop_on_wavy", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $(".wavy", fixture);
-		var item = $("<div></div>").text("test").addClass("test-item");
+		var fixture = $("#qunit-fixture"),
+				w = $(".wavy", fixture),
+				item = $("<div></div>").text("test").addClass("test-item");
 		item.appendTo(fixture);
 
 		w.wavy("addItem", item, 0);
@@ -170,11 +169,11 @@ test("test_drag_item_in_wavy_and_drop_on_wavy", function() {
 });
 
 test("test_drag_and_drop_item_in_wavy_that_shifts_others", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $(".wavy", fixture);
-		var item1 = $("<div></div>").text("test1").addClass("test-item");
-		var item2 = $("<div></div>").text("test2").addClass("test-item");
-		var item3 = $("<div></div>").text("test3").addClass("test-item");
+		var fixture = $("#qunit-fixture"),
+				w = $(".wavy", fixture),
+				item1 = $("<div></div>").text("test1").addClass("test-item"),
+				item2 = $("<div></div>").text("test2").addClass("test-item"),
+				item3 = $("<div></div>").text("test3").addClass("test-item");
 		item1.appendTo(fixture);
 		item2.appendTo(fixture);
 		item3.appendTo(fixture);
@@ -190,9 +189,9 @@ test("test_drag_and_drop_item_in_wavy_that_shifts_others", function() {
 });
 
 test("test_drag_and_drop_item_outside_wavy", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $(".wavy", fixture);
-		var item = $("<div></div>").text("test").addClass("test-item");
+		var fixture = $("#qunit-fixture"),
+				w = $(".wavy", fixture),
+				item = $("<div></div>").text("test").addClass("test-item");
 		w.wavy("addItem", item, 0);
 
 		item.simulate("drag", {dx: 500, dy: 500});

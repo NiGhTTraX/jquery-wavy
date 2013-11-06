@@ -1,3 +1,4 @@
+/* jslint unused: false */
 function testWavy(wavy, items) {
 	var slots = $(".wavy-slot", wavy);
 	var left = 0;
@@ -27,4 +28,5 @@ function dd(from, to) {
 
 	$(from).simulate("drag", {dx: dx, dy: dy});
 }
+/* jslint unused: true */
 

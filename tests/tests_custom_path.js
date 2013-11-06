@@ -1,7 +1,7 @@
 module("custom_path");
 test("test_custom_slots", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $("<div></div>");
+		var fixture = $("#qunit-fixture"),
+				w = $("<div></div>");
 		w.appendTo(fixture);
 
 		var slot1 = $("<div></div>").addClass("wavy-slot"),
@@ -25,8 +25,8 @@ test("test_custom_slots", function() {
 });
 
 test("test_custom_slots_with_pre_existing_items", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $("<div></div>");
+		var fixture = $("#qunit-fixture"),
+				w = $("<div></div>");
 		w.appendTo(fixture);
 
 		var slot1 = $("<div></div>").addClass("wavy-slot"),
@@ -50,8 +50,8 @@ test("test_custom_slots_with_pre_existing_items", function() {
 });
 
 test("test_custom_slots_with_pre_existing_items_drag_and_drop", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $("<div></div>");
+		var fixture = $("#qunit-fixture"),
+				w = $("<div></div>");
 		w.appendTo(fixture);
 
 		var slot1 = $("<div></div>").addClass("wavy-slot"),

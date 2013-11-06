@@ -1,7 +1,7 @@
 module("exceptions");
 test("test_invalid_path", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $("<div></div>");
+		var fixture = $("#qunit-fixture"),
+				w = $("<div></div>");
 		w.appendTo(fixture);
 
 		throws(function() {
@@ -10,8 +10,8 @@ test("test_invalid_path", function() {
 });
 
 test("test_invalid_shift_direction", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $("<div></div>");
+		var fixture = $("#qunit-fixture"),
+				w = $("<div></div>");
 		w.appendTo(fixture);
 		w.wavy({ path: [["line", 5, 0, 0, 300, 0]], shiftDirection: "invalid" });
 
@@ -25,8 +25,8 @@ test("test_invalid_shift_direction", function() {
 });
 
 test("test_api_wavy_full", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $("<div></div>");
+		var fixture = $("#qunit-fixture"),
+				w = $("<div></div>");
 		w.appendTo(fixture);
 		w.wavy({ path: [["line", 1, 0, 0, 300, 0]] });
 
@@ -35,13 +35,12 @@ test("test_api_wavy_full", function() {
 		throws(function() {
 				w.wavy("addItem", item.clone());
 		});
-		var expected = [item];
-		testWavy(w, expected);
+		testWavy(w, [item]);
 });
 
 test("test_drag_and_drop_wavy_full", function() {
-		var fixture = $("#qunit-fixture");
-		var w = $("<div></div>");
+		var fixture = $("#qunit-fixture"),
+				w = $("<div></div>");
 		w.appendTo(fixture);
 		w.wavy({ path: [["line", 1, 0, 0, 300, 0]] });
 

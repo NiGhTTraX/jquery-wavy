@@ -1,0 +1,34 @@
+{
+	"eqeqeq": true,
+	"eqnull": true,
+	"noarg": true,
+	"quotmark": "double",
+	"smarttabs": true,
+	"trailing": true,
+	"undef": true,
+	"unused": true,
+
+	"browser": true,
+	"jquery": true,
+
+	"globals": {
+		"QUnit": false,
+		"ok": false,
+		"equal": false,
+		"asyncTest": false,
+		"notEqual": false,
+		"deepEqual": false,
+		"strictEqual": false,
+		"notStrictEqual": false,
+		"start": false,
+		"stop": false,
+		"expect": false,
+		"throws": false,
+
+		"testWavy": false,
+		"dd": false,
+
+		"module": true,
+		"test": true
+	}
+}

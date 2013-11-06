@@ -18,12 +18,18 @@ module.exports = function(grunt) {
 		jshint: {
 			src: {
 				src: [ "src/**/*.js" ],
+				options: {
+					jshintrc: "src/.jshintrc"
+				}
 			},
 			grunt: {
 				src: [ "Gruntfile.js"],
 			},
 			tests: {
 				src: [ "tests/**/*.js" ],
+				options: {
+					jshintrc: "tests/.jshintrc"
+				}
 			}
 		},
 
@@ -55,6 +61,7 @@ module.exports = function(grunt) {
 
 	// Tasks.
 	grunt.registerTask('test', ['connect', 'blanket_qunit']);
-	grunt.registerTask('default', ['jshint', 'test', 'uglify']);
+	grunt.registerTask('lint', ['jshint']);
+	grunt.registerTask('default', ['lint', 'test', 'uglify']);
 };
 
