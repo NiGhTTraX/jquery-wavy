@@ -30,7 +30,7 @@ test("test_api_wavy_full", function() {
 		w.appendTo(fixture);
 		w.wavy({ path: [["line", 1, 0, 0, 300, 0]] });
 
-		var item = $("<div></div>").text("test");
+		var item = $("<div></div>").addClass("test-item").text("test");
 		w.wavy("addItem", item.clone());
 		throws(function() {
 				w.wavy("addItem", item.clone());

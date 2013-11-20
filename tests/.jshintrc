@@ -27,6 +27,7 @@
 
 		"testWavy": false,
 		"dd": false,
+		"findCenter": false,
 
 		"module": true,
 		"test": true

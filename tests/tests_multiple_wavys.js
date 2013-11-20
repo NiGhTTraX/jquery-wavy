@@ -4,7 +4,7 @@ module("more_wavys", {
 						w1 = $("<div></div>").attr("id", "w1").appendTo(fixture),
 						w2 = $("<div></div>").attr("id", "w2").appendTo(fixture);
 				w1.wavy({ path: [["line", 5, 0, 0, 300, 0]] });
-				w2.wavy({ path: [["line", 5, 0, 0, 300, 300]] });
+				w2.wavy({ path: [["line", 5, 0, 100, 300, 100]] });
 		}
 });
 test("test_drag_and_drop_item_between_wavys", function() {
@@ -101,3 +101,104 @@ test("test_drag_and_drop_item_from_wavy_to_full_wavy", function() {
 		testWavy(w2, [i2, i2, i2, i2, i2]);
 });
 
+test("test_drag_between_wavys_and_drop_outside", function() {
+		var w1 = $("#w1"),
+				w2 = $("#w2"),
+				item = $("<div></div>").text("test").addClass("test-item"),
+				slot = $(".wavy-slot:first", w2);
+		w1.wavy("addItem", item, 0);
+
+		var coords = findCenter(item);
+
+		item.simulate("mousedown", coords);
+
+		coords = findCenter(slot);
+		$(document).simulate("mousemove", coords);
+
+		coords.clientY += 400;
+		$(document).simulate("mousemove", coords);
+
+		item.simulate("mouseup", coords);
+		item.simulate("click", coords);
+
+		testWavy(w1, [0, 0, 0, 0, 0]);
+		testWavy(w2, [item, 0, 0, 0, 0]);
+});
+
+test("test_drag_over_wavy1_then_wavy2_and_drop_outside", function() {
+		var w1 = $("#w1"),
+				w2 = $("#w2"),
+				fixture = $("#qunit-fixture"),
+				item = $("<div></div>").text("test").addClass("test-item");
+		item.appendTo(fixture).draggable();
+
+		var coords = findCenter(item);
+
+		item.simulate("mousedown", coords);
+
+		coords = findCenter($(".wavy-slot:first", w1));
+		$(document).simulate("mousemove", coords);
+
+		coords = findCenter($(".wavy-slot:first", w2));
+		$(document).simulate("mousemove", coords);
+
+		coords.clientY += 1000;
+		$(document).simulate("mousemove", coords);
+
+		item.simulate("mouseup", coords);
+		item.simulate("click", coords);
+
+		testWavy(w1, [0, 0, 0, 0, 0]);
+		testWavy(w2, [0, 0, 0, 0, 0]);
+});
+
+test("test_drag_over_wavy1_and_drop_on_wavy2", function() {
+		var w1 = $("#w1"),
+				w2 = $("#w2"),
+				fixture = $("#qunit-fixture"),
+				item = $("<div></div>").text("test").addClass("test-item");
+		item.appendTo(fixture).draggable();
+
+		var coords = findCenter(item);
+
+		item.simulate("mousedown", coords);
+
+		coords = findCenter($(".wavy-slot:first", w1));
+		$(document).simulate("mousemove", coords);
+
+		coords = findCenter(w2);
+		$(document).simulate("mousemove", coords);
+
+		item.simulate("mouseup", coords);
+		item.simulate("click", coords);
+
+		testWavy(w1, [0, 0, 0, 0, 0]);
+		testWavy(w2, [item, 0, 0, 0, 0]);
+});
+
+test("test_drag_over_wavy1_then_wavy2_then_back_to_wavy1", function() {
+		var w1 = $("#w1"),
+				w2 = $("#w2"),
+				fixture = $("#qunit-fixture"),
+				item = $("<div></div>").text("test").addClass("test-item");
+		item.appendTo(fixture).draggable();
+
+		var coords = findCenter(item);
+
+		item.simulate("mousedown", coords);
+
+		coords = findCenter($(".wavy-slot:first", w1));
+		$(document).simulate("mousemove", coords);
+
+		coords = findCenter($(".wavy-slot:first", w2));
+		$(document).simulate("mousemove", coords);
+
+		coords = findCenter($(".wavy-slot:first", w1));
+		$(document).simulate("mousemove", coords);
+
+		item.simulate("mouseup", coords);
+		item.simulate("click", coords);
+
+		testWavy(w1, [item, 0, 0, 0, 0]);
+		testWavy(w2, [0, 0, 0, 0, 0]);
+});
