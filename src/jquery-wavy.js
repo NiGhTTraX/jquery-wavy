@@ -315,7 +315,6 @@ $.widget("wavy.wavy", {
 
 								drop: function() {
 										// Do we have room?
-										// TODO: is this needed?
 										if (that._capacity === 0) {
 											$wm.current = null;
 											$wm.placeholder = null;
