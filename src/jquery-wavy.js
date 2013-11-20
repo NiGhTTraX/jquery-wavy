@@ -23,7 +23,7 @@ $.widget("wavy.wavy", {
 				shiftDirection: "closest",
 				acceptOnWavy: true,
 				scope: "default",
-				path: "none",
+				path: null,
 				offset: false,
 				rotate: false,
 		},
@@ -31,26 +31,39 @@ $.widget("wavy.wavy", {
 		_create: function() {
 				this.element.addClass("wavy");
 
-				this._pickedUp = null;
 				this._getSize();
 				this._createSlots();
 				this._positionSlots();
 				this._makeSortable();
+				if (this.options.acceptOnWavy === true) {
+					this._makeWavyDroppable();
+				}
 		},
 
 		_getSize: function() {
+				// TODO: refactor?
 				var path = this.options.path;
 				this._size = 0;
 
-				if (path !== "none") {
+				if (path !== null) {
 					for (var i = 0, l = path.length; i < l; i++) {
 						this._size += path[i][1];
 					}
 				} else {
-					this._size = $("." + this.options.slotClass, this.element).length;
+					this.refresh();
 				}
 
 				this._capacity = this._size;
+		},
+
+		_createSlots: function() {
+				if (this.options.path === null)
+					return;
+
+				for (var i = 0; i < this._size; i++) {
+					var slot = $("<div></div>").addClass(this.options.slotClass);
+					slot.appendTo(this.element);
+				}
 		},
 
 		_removeSlots: function(i) {
@@ -134,18 +147,8 @@ $.widget("wavy.wavy", {
 				};
 		},
 
-		_createSlots: function() {
-				if (this.options.path === "none")
-					return;
-
-				for (var i = 0; i < this._size; i++) {
-					var slot = $("<div></div>").addClass(this.options.slotClass);
-					slot.appendTo(this.element);
-				}
-		},
-
 		_positionSlots: function() {
-				if (this.options.path === "none")
+				if (this.options.path === null)
 					return;
 
 				var that = this,
@@ -222,98 +225,187 @@ $.widget("wavy.wavy", {
 		},
 
 		_makeSortable: function() {
-				var that = this;
-				var selector = this._createSelector();
+				var that = this,
+						$wm = $.wavy.wmanager,
+						selector = this._createSelector();
 
 				$("." + this.options.slotClass, this.element).each(function() {
 						$(this).droppable({
 								scope: that.options.scope,
 								greedy: true,
 								over: function(e, ui) {
-										// Do we have room?
-										if (that._pickedUp === null && that.element.hasClass("full"))
+										/**
+										 * If we're dragging a new item in, meaning that $wm.current
+										 * is anything other than us, and we're full, do nothing.
+										 */
+										if ($wm.current !== that && that._capacity === 0)
 											return;
 
-										// Move the placeholder.
-										if (that._pickedUp) {
-											that._pickedUp.appendTo($(this));
+										/**
+										 * If we moved from another wavy, then we can assume 2
+										 * things:
+										 * - $wm.current will hold the wavy instance
+										 * - $wm.placeholder will hold the current position, in the
+										 *   other wavy, of the item we're moving.
+										 *
+										 * When moving an item between wavys, we must inform the
+										 * other wavy to free up the item's slot. The helper will
+										 * remain in the old Wavy.
+										 */
+										if ($wm.current && $wm.current !== that) {
+											$wm.placeholder.appendTo($(this));
 
+											$wm.current.refresh();
+
+											// We're now treating the item as being part of our Wavy,
+											// so update the capacity.
+											that._capacity -= 1;
+										}
+
+										// We're the current Wavy now.
+										$wm.current = that;
+
+										// Is this a new element being dragged over?
+										if (!$wm.placeholder) {
+											$wm.placeholder = ui.helper.clone();
+											$wm.placeholder.css({ left: 0, top: 0});
+											$wm.placeholder.addClass(that.options.placeholderClass);
+
+											that._capacity -= 1;
+
+											/**
+											 * Since this is a new item, we have to listen to its
+											 * dragstop event and remove the placeholder when the item
+											 * is not dropped on a wavy.
+											 *
+											 * The current implementation of draggables and droppables
+											 * will fire the drop event before the dragstop event.
+											 */
+											$(ui.draggable).on("dragstop", function() {
+													if ($wm.placeholder) {
+														$wm.placeholder.remove();
+														$wm.placeholder = null;
+														$wm.current.refresh();
+													}
+
+													$wm.current = null;
+											});
+										} else {
 											// Update the helper's index.
 											ui.helper.data("index", $(this).index());
 										}
 
-										// If this is an empty slot, do nothing.
-										if ($(this).children(selector).length === 0)
-											return;
+										// TODO: stop using children
+										if ($(this).children(selector).length !== 0) {
+											/**
+											* There is already an item in this slot, so we have to
+											* shift some of the other items to make room.
+											*/
+											var i = $(this).index(),
+													freeSpot = that._findFreeSpot(i);
+											that._shift(i, freeSpot);
+										}
 
-										/**
-										* There is already an item in this slot, so we have to shift
-										* some of the other items to make room.
-										*/
-										var i = $(this).index();
-										var freeSpot = that._findFreeSpot(i);
+										// Move the placeholder.
+										$wm.placeholder.appendTo($(this));
 
-										that._shift(i, freeSpot);
-
+										if (that._capacity === 0)
+											that.element.addClass("full");
 								},
 
 								drop: function(e, ui) {
 										// Do we have room?
-										if (that._pickedUp === null && that.element.hasClass("full"))
+										// TODO: is this needed?
+										if (that._capacity === 0) {
+											$wm.current = null;
+											$wm.placeholder = null;
 											return;
-
-										if (that._pickedUp) {
-											// We were dragging an element already in the list.
-											// Let the item handle itself through the stop method.
-										} else {
-											// This is a new element being dropped in the list.
-											// Insert the dragged item into the slot.
-											var item = ui.helper.clone();
-											that._addItem(item, $(this));
-
-											// Was this an element from another wavy?
-											var otherWavy = ui.helper.parent();
-											if (otherWavy.hasClass("wavy") &&
-													otherWavy !== that.element) {
-												// Remove the original element.
-												var index = ui.helper.data("index");
-												otherWavy.wavy("removeItem", index);
-											}
-
-											// If this was our last empty slot, mark the wavy as
-											// full.
-											that._capacity -= 1;
-											if (that._capacity === 0)
-												that.element.addClass("full");
 										}
+
+										$wm.placeholder.removeClass(that.options.placeholderClass);
+
+										$wm.current = null;
+										$wm.placeholder = null;
 								}
 						});
 
 						// Initialize any pre-existing items.
+						// TODO: check if more than 1 child
 						$(this).children().each(function() {
 								that._capacity -= 1;
 								that._makeItemDraggable($(this));
 						});
 				});
+		},
 
-				if (this.options.acceptOnWavy === true) {
-					// When dropping an element on the wavy itself, rather than on a
-					// slot, insert the element in a free slot.
-					this.element.droppable({
-							scope: this.options.scope,
-							greedy: true,
-							drop: function(e, ui) {
-									if (that._pickedUp)
-										return;
-									var item = ui.helper.clone();
-									try {
-										that.addItem(item);
-									} catch(err) {
-										// The wavy was probably full, do nothing.
+		_makeWavyDroppable: function() {
+				var that = this,
+						$wm = $.wavy.wmanager;
+
+				// When dropping an element on the wavy itself, rather than on a
+				// slot, insert the element in a free slot.
+				this.element.droppable({
+						scope: this.options.scope,
+						greedy: true,
+						drop: function(e, ui) {
+								// Do we have room?
+								if (that._capacity === 0)
+									return;
+
+								if ($wm.current === that) {
+									$wm.placeholder.removeClass(that.options.placeholderClass);
+									that._makeItemDraggable($wm.placeholder);
+									$wm.placeholder = null;
+								} else {
+									if ($wm.placeholder) {
+										$wm.placeholder.remove();
+										$wm.placeholder = null;
+										$wm.current.refresh();
 									}
-							}
-					});
-				}
+									that.addItem(ui.helper.clone());
+								}
+
+								$wm.current = null;
+						}
+				});
+		},
+
+		_makeItemDraggable: function(item) {
+				var that = this,
+						$wm = $.wavy.wmanager;
+
+				item.css({ left: 0, top: 0 });
+
+				/* TODO: destroy previous draggable, if any?
+				if (item.hasClass("ui-draggable"))
+					item.draggable("destroy");
+					*/
+
+				item.draggable({
+						scope: that.options.scope,
+						revert: false, // TODO: make it an option
+						helper: "clone",
+						appendTo: that.element,
+						start: function(e, ui) {
+								// Attach the index to the helper.
+								// This is useful if you want to interact with the original
+								// item when dragging outside of the wavy.
+								ui.helper.data("index", $(this).parent().index());
+
+								// The placeholder is the element itself.
+								$(this).addClass(that.options.placeholderClass);
+								$wm.placeholder = $(this);
+								$wm.current = that;
+						},
+
+						stop: function() {
+								if ($wm.placeholder) {
+									$wm.placeholder.removeClass(that.options.placeholderClass);
+									$wm.placeholder = null;
+									$wm.current = null;
+								}
+						}
+				});
 		},
 
 		_findFreeSpot: function(i) {
@@ -322,6 +414,7 @@ $.widget("wavy.wavy", {
 				var selector = this._createSelector();
 
 				for (k = i + 1; k < size; k++) {
+					// TODO: stop using children
 					if (!this.element.children().eq(k).children(selector).length)
 						if (this.options.shiftDirection === "right") {
 							return k;
@@ -332,6 +425,7 @@ $.widget("wavy.wavy", {
 				}
 
 				for (k = i - 1; k >= 0; k--) {
+					// TODO: stop using children
 					if (!this.element.children().eq(k).children(selector).length)
 						if (this.options.shiftDirection === "left") {
 							return k;
@@ -367,53 +461,17 @@ $.widget("wavy.wavy", {
 
 				if (i < j) {
 					for (k = j; k > i; k--) {
+						// TODO: stop using children
 						this.element.children().eq(k - 1).children(selector).appendTo(
 								this.element.children().eq(k));
 					}
 				} else {
 					for (k = j; k < i; k++) {
+						// TODO: stop using children
 						this.element.children().eq(k + 1).children(selector).appendTo(
 								this.element.children().eq(k));
 					}
 				}
-		},
-
-		_makeItemDraggable: function(item) {
-				var that = this;
-
-				item.css({ left: 0, top: 0 });
-
-				item.draggable({
-						scope: that.options.scope,
-						revert: false,
-						helper: "clone",
-						appendTo: that.element,
-						start: function(e, ui) {
-								// Attach the index to the helper.
-								// This is useful if you want to interact with the original
-								// item when dragging outside of the wavy.
-								ui.helper.data("index", $(this).parent().index());
-
-								that._pickedUp = $(this);
-								$(this).addClass(that.options.placeholderClass);
-						},
-						stop: function() {
-								/**
-								* This method is only triggered when dragging an element that
-								* is already part of the wavy, which means, the item will
-								* reside in the _pickedUp variable. When this is triggered,
-								* the placeholder should already be in the right position, so
-								* just remove the placeholder class and clear the variable.
-								*
-								* In this way, the original item is moved around, and not a
-								* copy of it.
-								*/
-								if (that._pickedUp) {
-									that._pickedUp.removeClass(that.options.placeholderClass);
-									that._pickedUp = null;
-								}
-						}
-				});
 		},
 
 		_addItem: function(item, slot) {
@@ -422,7 +480,7 @@ $.widget("wavy.wavy", {
 		},
 
 		addItem: function(item, index) {
-				if (this.element.hasClass("full"))
+				if (this._capacity === 0)
 					throw new Error("Wavy full");
 
 				var slot, freeSpot;
@@ -431,6 +489,7 @@ $.widget("wavy.wavy", {
 					// Try to add the item to the given slot.
 					slot = this.element.children().eq(index);
 
+					// TODO: stop using children
 					if (slot.children().length) {
 						// There's already an item in that slot, so let's shift.
 						freeSpot = this._findFreeSpot(index);
@@ -450,18 +509,37 @@ $.widget("wavy.wavy", {
 		},
 
 		removeItem: function(index) {
-				var slot = this.element.children().eq(index);
-				var children = slot.children();
+				var slot = this.element.children().eq(index),
+						children = slot.children();
 
+				// TODO: stop using children
 				if (children.length) {
 					children.remove();
-					this._capacity += 1;
+					this._capacity += 1; // TODO: check this
 					this.element.removeClass("full");
 				}
 		},
 
 		capacity: function() {
 				return this._capacity;
+		},
+
+		refresh: function() {
+				var slots = $("." + this.options.slotClass, this.element);
+
+				this._size = this._capacity = slots.length;
+
+				slots.each(function() {
+						// TODO: stop using children
+						if ($(this).children().length)
+							this._capacity--;
+				});
 		}
 });
+
+
+$.wavy.wmanager = {
+		current: null,
+		placeholder: null
+};
 
