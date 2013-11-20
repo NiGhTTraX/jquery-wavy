@@ -313,7 +313,7 @@ $.widget("wavy.wavy", {
 											that.element.addClass("full");
 								},
 
-								drop: function(e, ui) {
+								drop: function() {
 										// Do we have room?
 										// TODO: is this needed?
 										if (that._capacity === 0) {
