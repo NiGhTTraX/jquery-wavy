@@ -135,7 +135,7 @@ $.widget("wavy.wavy", {
 				return  {
 						"x": (Math.cos(angle) * radius) + cx,
 						"y": (Math.sin(angle) * radius) + cy,
-						"angle": angle
+						"angle": angle + Math.PI / 2
 				};
 		},
 

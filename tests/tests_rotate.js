@@ -50,7 +50,9 @@ test("test_rotate_arc", function() {
 
 		$(".wavy-slot", w).each(function(i) {
 				var m = getTransformMatrix(this),
-						expected = Math.PI / 4 * i;
+						expected = Math.PI / 4 * i + Math.PI / 2;
+				if (expected > 2 * Math.PI)
+					expected -= 2 * Math.PI;
 				equal(getAngle(m), expected.toFixed(2), i);
 		});
 });
