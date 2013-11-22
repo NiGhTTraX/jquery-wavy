@@ -295,7 +295,6 @@ $.widget("wavy.wavy", {
 											ui.helper.data("index", $(this).index());
 										}
 
-										// TODO: stop using children
 										if ($(this).children(selector).length !== 0) {
 											/**
 											* There is already an item in this slot, so we have to
@@ -329,7 +328,6 @@ $.widget("wavy.wavy", {
 						});
 
 						// Initialize any pre-existing items.
-						// TODO: check if more than 1 child
 						$(this).children().each(function() {
 								that._capacity -= 1;
 								that._makeItemDraggable($(this));
@@ -375,11 +373,6 @@ $.widget("wavy.wavy", {
 
 				item.css({ left: 0, top: 0 });
 
-				/* TODO: destroy previous draggable, if any?
-				if (item.hasClass("ui-draggable"))
-					item.draggable("destroy");
-					*/
-
 				item.draggable({
 						scope: that.options.scope,
 						revert: false, // TODO: make it an option
@@ -413,7 +406,6 @@ $.widget("wavy.wavy", {
 				var selector = this._createSelector();
 
 				for (k = i + 1; k < size; k++) {
-					// TODO: stop using children
 					if (!this.element.children().eq(k).children(selector).length)
 						if (this.options.shiftDirection === "right") {
 							return k;
@@ -424,7 +416,6 @@ $.widget("wavy.wavy", {
 				}
 
 				for (k = i - 1; k >= 0; k--) {
-					// TODO: stop using children
 					if (!this.element.children().eq(k).children(selector).length)
 						if (this.options.shiftDirection === "left") {
 							return k;
@@ -460,13 +451,11 @@ $.widget("wavy.wavy", {
 
 				if (i < j) {
 					for (k = j; k > i; k--) {
-						// TODO: stop using children
 						this.element.children().eq(k - 1).children(selector).appendTo(
 								this.element.children().eq(k));
 					}
 				} else {
 					for (k = j; k < i; k++) {
-						// TODO: stop using children
 						this.element.children().eq(k + 1).children(selector).appendTo(
 								this.element.children().eq(k));
 					}
@@ -488,7 +477,6 @@ $.widget("wavy.wavy", {
 					// Try to add the item to the given slot.
 					slot = this.element.children().eq(index);
 
-					// TODO: stop using children
 					if (slot.children().length) {
 						// There's already an item in that slot, so let's shift.
 						freeSpot = this._findFreeSpot(index);
@@ -511,10 +499,9 @@ $.widget("wavy.wavy", {
 				var slot = this.element.children().eq(index),
 						children = slot.children();
 
-				// TODO: stop using children
 				if (children.length) {
 					children.remove();
-					this._capacity += 1; // TODO: check this
+					this._capacity += 1;
 					this.element.removeClass("full");
 				}
 		},
@@ -529,7 +516,6 @@ $.widget("wavy.wavy", {
 				this._size = this._capacity = slots.length;
 
 				slots.each(function() {
-						// TODO: stop using children
 						if ($(this).children().length)
 							this._capacity--;
 				});
