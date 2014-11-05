@@ -1,6 +1,15 @@
 jquery-wavy
 ===========
 
+## Deprecation notice
+
+This project has been split it up in three:
+- [jQuery fsortable](https://github.com/NiGhTTraX/jquery-fsortable) - fixed layout sortable
+- [jQuery asortable](https://github.com/NiGhTTraX/jquery-asortable) - sortable with absolutely positioned items
+- [jQuery pathy](https://github.com/NiGhTTraX/jquery-pathy) - position items on paths
+
+----
+
 Wavy is a [jQuery UI](http://www.jqueryui.com) plugin that creates sortable paths with absolutely positioned items. These paths have a number of slots that are positioned to follow a shape, or they can be positioned manually by the user. Items can be dragged into these slots and can be rearranged at any time. Multiple paths can be combined to form custom shapes and a number of options allow you to control how they work.
 
 
