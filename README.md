@@ -1,6 +1,8 @@
 jquery-wavy
 ===========
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/NiGhTTraX/jquery-wavy.svg)](https://greenkeeper.io/)
+
 ## Deprecation notice
 
 This project has been split it up in three:
